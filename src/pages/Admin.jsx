@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { fetchAllProgress } from '../lib/supabase.js'
 import { allLessons } from '../data/lessonRegistry.js'
 
-const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'admin'
+const ADMIN_PASSWORD = (import.meta.env.VITE_ADMIN_PASSWORD || 'admin').trim()
 
 function downloadCSV(rows, lessons) {
   const headers = ['학번', '이름', '완료 수', ...lessons.map((l) => l.title)]
@@ -45,7 +45,7 @@ export default function Admin() {
   const lessons = allLessons
 
   const handleLogin = () => {
-    if (pw === ADMIN_PASSWORD) {
+    if (pw.trim() === ADMIN_PASSWORD) {
       setAuthed(true)
       setPwError(false)
     } else {
