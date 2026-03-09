@@ -4,14 +4,33 @@ export default function FormativeQuiz({ questions, storageKey = null }) {
   const [answers, setAnswers] = usePersistentState(storageKey ? storageKey + '-ans' : null, {})
   const [submitted, setSubmitted] = usePersistentState(storageKey ? storageKey + '-sub' : null, false)
 
+  const mcQuestions = questions.filter(q => q.type !== 'text')
+
   function select(qIdx, optIdx) {
     if (submitted) return
     setAnswers(prev => ({ ...prev, [qIdx]: optIdx }))
   }
 
+  function setText(qIdx, value) {
+    if (submitted) return
+    setAnswers(prev => ({ ...prev, [qIdx]: value }))
+  }
+
   const score = submitted
-    ? questions.filter((q, i) => answers[i] === q.answer).length
+    ? questions.filter((q, i) => q.type !== 'text' && answers[i] === q.answer).length
     : 0
+
+  const allAnswered = questions.every((q, i) =>
+    q.type === 'text'
+      ? typeof answers[i] === 'string' && answers[i].trim().length > 0
+      : answers[i] !== undefined
+  )
+
+  const answeredCount = questions.filter((q, i) =>
+    q.type === 'text'
+      ? typeof answers[i] === 'string' && answers[i].trim().length > 0
+      : answers[i] !== undefined
+  ).length
 
   function optStyle(qIdx, optIdx) {
     if (!submitted) {
@@ -32,36 +51,50 @@ export default function FormativeQuiz({ questions, storageKey = null }) {
           <p className="font-semibold text-slate-800 mb-3">
             <span className="text-blue-600 mr-2">Q{qIdx + 1}.</span>{q.question}
           </p>
-          <div className="space-y-2">
-            {q.options.map((opt, oIdx) => (
-              <button
-                key={oIdx}
-                onClick={() => select(qIdx, oIdx)}
-                className={`w-full text-left px-4 py-3 rounded-xl border text-sm transition-all ${optStyle(qIdx, oIdx)}`}
-              >
-                <span className="font-medium mr-2">{['①','②','③','④','⑤'][oIdx]}</span>
-                {opt}
-              </button>
-            ))}
-          </div>
+
+          {q.type === 'text' ? (
+            <textarea
+              value={answers[qIdx] || ''}
+              onChange={e => setText(qIdx, e.target.value)}
+              disabled={submitted}
+              rows={4}
+              placeholder={q.placeholder || '자유롭게 작성해 보세요.'}
+              className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition resize-none disabled:bg-slate-50 disabled:text-slate-500"
+            />
+          ) : (
+            <div className="space-y-2">
+              {q.options.map((opt, oIdx) => (
+                <button
+                  key={oIdx}
+                  onClick={() => select(qIdx, oIdx)}
+                  className={`w-full text-left px-4 py-3 rounded-xl border text-sm transition-all ${optStyle(qIdx, oIdx)}`}
+                >
+                  <span className="font-medium mr-2">{['①','②','③','④','⑤'][oIdx]}</span>
+                  {opt}
+                </button>
+              ))}
+            </div>
+          )}
+
           {submitted && q.explanation && (
             <p className="mt-2 text-xs text-slate-500 bg-slate-50 rounded-lg p-2">{q.explanation}</p>
           )}
         </div>
       ))}
+
       {!submitted ? (
         <button
           onClick={() => setSubmitted(true)}
-          disabled={Object.keys(answers).length < questions.length}
+          disabled={!allAnswered}
           className="w-full py-3 bg-blue-600 text-white rounded-2xl font-semibold text-sm disabled:opacity-40 hover:bg-blue-700 transition-colors"
         >
-          제출하기 ({Object.keys(answers).length}/{questions.length} 답변)
+          제출하기 ({answeredCount}/{questions.length} 답변)
         </button>
       ) : (
-        <div className={`rounded-2xl p-5 text-center ${score >= questions.length * 0.8 ? 'bg-green-50 border border-green-300' : 'bg-amber-50 border border-amber-300'}`}>
-          <p className="text-2xl font-bold mb-1">{score} / {questions.length}</p>
+        <div className={`rounded-2xl p-5 text-center ${score >= mcQuestions.length * 0.8 ? 'bg-green-50 border border-green-300' : 'bg-amber-50 border border-amber-300'}`}>
+          <p className="text-2xl font-bold mb-1">{score} / {mcQuestions.length}</p>
           <p className="text-sm text-slate-600">
-            {score >= questions.length * 0.8 ? '훌륭해요! 이번 모듈을 잘 이해했습니다.' : '다시 한번 내용을 복습해 보세요.'}
+            {score >= mcQuestions.length * 0.8 ? '훌륭해요! 이번 모듈을 잘 이해했습니다.' : '다시 한번 내용을 복습해 보세요.'}
           </p>
         </div>
       )}

@@ -50,6 +50,16 @@ const questions = [
     answer: 1,
     explanation: '2019년 제53회 국무회의에서 2030년까지 최대 455조 원의 경제 효과를 창출하겠다는 목표를 발표했습니다.',
   },
+  {
+    type: 'text',
+    question: '미래에 내가 갖고 싶은 직업은 무엇인가요?',
+    placeholder: '예: 게임 개발자, 의사, 선생님, 아직 모르겠다 등 솔직하게 써 보세요.',
+  },
+  {
+    type: 'text',
+    question: '그 직업에서 AI가 등장하면 나의 역할은 어떻게 달라질 것 같나요?',
+    placeholder: '예: 진단은 AI가 하고 나는 환자와 소통하는 역할을 맡을 것 같다.',
+  },
 ]
 
 export default function Quiz2() {
@@ -58,7 +68,7 @@ export default function Quiz2() {
       <header>
         <span className="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold mb-3">모듈 2 · 형성평가</span>
         <h1 className="text-2xl font-extrabold text-slate-800 mb-2">인공지능과 사회 변화</h1>
-        <p className="text-slate-500 text-sm">모듈 2에서 배운 내용을 스스로 점검해 보세요. 5문항 · 제출 후 해설 확인</p>
+        <p className="text-slate-500 text-sm">모듈 2에서 배운 내용을 스스로 점검해 보세요. 5문항 + 주관식 2문항 · 제출 후 해설 확인</p>
       </header>
       <div className="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800">
         💡 모든 문항에 답한 후 제출 버튼을 눌러 결과를 확인하세요.

@@ -61,6 +61,11 @@ const questions = [
     answer: 2,
     explanation: '지식 기반 AI는 전문가의 지식을 모은 지식 베이스와 그것을 활용해 결론을 내리는 추론 기관으로 구성됩니다.',
   },
+  {
+    type: 'text',
+    question: '이번 수업에서 가장 인상 깊었던 내용이나 더 알고 싶은 점을 자유롭게 써 보세요. (피드백)',
+    placeholder: '예: 튜링 테스트가 흥미로웠어요. 강한 AI는 언제쯤 등장할지 궁금합니다.',
+  },
 ]
 
 export default function Quiz1() {
@@ -69,7 +74,7 @@ export default function Quiz1() {
       <header>
         <span className="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold mb-3">모듈 1 · 형성평가</span>
         <h1 className="text-2xl font-extrabold text-slate-800 mb-2">인공지능의 개념과 특성</h1>
-        <p className="text-slate-500 text-sm">모듈 1에서 배운 내용을 스스로 점검해 보세요. 5문항 · 제출 후 해설 확인</p>
+        <p className="text-slate-500 text-sm">모듈 1에서 배운 내용을 스스로 점검해 보세요. 5문항 + 피드백 1문항 · 제출 후 해설 확인</p>
       </header>
       <div className="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800">
         💡 모든 문항에 답한 후 제출 버튼을 눌러 결과를 확인하세요.
