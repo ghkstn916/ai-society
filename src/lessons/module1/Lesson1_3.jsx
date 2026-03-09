@@ -35,7 +35,7 @@ export default function Lesson1_3() {
         <img
           src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=700&h=270&fit=crop"
           alt="소프트웨어 코드"
-          className="w-full rounded-2xl object-cover mb-4 shadow"
+          className="w-full max-h-48 rounded-2xl object-cover mb-4 shadow"
         />
         <p className="text-sm text-slate-600 leading-relaxed">
           예전에는 자동화된 기계도 인공지능이라고 불렀습니다. 냉장고에 온도 자동 조절 기능이 있다고 해서 AI가 들어있다고 과장 광고하는 경우도 있었죠. 하지만 <strong>모든 소프트웨어가 AI는 아닙니다.</strong>
@@ -88,21 +88,31 @@ export default function Lesson1_3() {
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">3. AI 소프트웨어의 두 가지 유형</h2>
         <img
-          src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=700&h=240&fit=crop"
-          alt="AI 학습 개념"
-          className="w-full rounded-2xl object-cover mb-4 shadow"
+          src="/ai-society/image/17.jpg"
+          alt="AI 소프트웨어 두 가지 유형"
+          className="w-full max-h-52 rounded-2xl object-contain mb-4 shadow bg-white p-1"
         />
         <div className="space-y-4">
           <div className="rounded-2xl bg-purple-50 border border-purple-200 p-5">
             <p className="font-bold text-purple-800 mb-2">🧠 지식 기반 AI 소프트웨어</p>
-            <p className="text-sm text-slate-700 mb-2">전문가의 지식을 모아 <strong>지식 베이스(Knowledge Base)</strong>를 만들고, 추론 기관이 사용자의 요구에 답합니다.</p>
+            <p className="text-sm text-slate-700 mb-3">전문가의 지식을 모아 <strong>지식 베이스(Knowledge Base)</strong>를 만들고, 추론 기관이 사용자의 요구에 답합니다.</p>
+            <img
+              src="/ai-society/image/18_1.png"
+              alt="지식 기반 AI 소프트웨어 구조"
+              className="w-full max-h-40 rounded-xl object-contain mb-3 bg-white shadow-sm"
+            />
             <p className="text-xs bg-white rounded-xl px-3 py-2 text-slate-500">
               💡 예: 브레드봇(AI 제빵 로봇) — 제빵사의 비법을 지식 베이스에 저장해두고, 기온·습도에 따라 온도와 시간을 조절해 빵을 굽습니다.
             </p>
           </div>
           <div className="rounded-2xl bg-green-50 border border-green-200 p-5">
             <p className="font-bold text-green-800 mb-2">📊 학습 기반 AI 소프트웨어</p>
-            <p className="text-sm text-slate-700 mb-2"><strong>학습 알고리즘</strong>을 통해 데이터에서 스스로 규칙을 찾아내고, 사용자 요구를 처리합니다.</p>
+            <p className="text-sm text-slate-700 mb-3"><strong>학습 알고리즘</strong>을 통해 데이터에서 스스로 규칙을 찾아내고, 사용자 요구를 처리합니다.</p>
+            <img
+              src="/ai-society/image/18_2.png"
+              alt="학습 기반 AI 소프트웨어 구조"
+              className="w-full max-h-40 rounded-xl object-contain mb-3 bg-white shadow-sm"
+            />
             <p className="text-xs bg-white rounded-xl px-3 py-2 text-slate-500">
               💡 예: 스마트폰 카메라 — 수백만 장의 사진 데이터를 학습해 인물·풍경을 자동 인식하고 최적 설정으로 촬영합니다.
             </p>

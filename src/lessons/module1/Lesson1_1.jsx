@@ -113,7 +113,7 @@ export default function Lesson1_1() {
         <img
           src="https://i.namu.wiki/i/rQBSP7X2mZlcoIXAB9dUT3sklm5-EkbarP0XwuiqpOkWyiSIUPsxDYl2_jOp4iSYILPSlc3GhMjrVQ9AJntsUV7Ls25lz0sBQBh7dlm0A5qZI8DD86AXz0Ajus6WdNBUjMaa3WFTER3xM9qYQsBe3Q.webp"
           alt="인공지능을 만든 과학자들"
-          className="w-full rounded-2xl object-cover mb-4 shadow"
+          className="w-full max-h-52 rounded-2xl object-cover mb-4 shadow"
         />
         <div className="space-y-3">
           {[
