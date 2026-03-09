@@ -100,6 +100,79 @@ function AIExampleCards() {
   )
 }
 
+const aiTraits = [
+  {
+    title: '인간 같은 행동',
+    subtitle: 'Acting Humanly',
+    color: 'blue',
+    desc: '사람처럼 대화하고, 물체를 알아보고, 문제를 스스로 해결하는 기계를 만들려 했습니다. 외부에서 봤을 때 인간과 구별이 안 될 정도로 행동하는 것을 목표로 합니다.',
+    example: '💡 튜링 테스트: 심사원이 컴퓨터와 사람을 구분하지 못하면 통과!',
+  },
+  {
+    title: '인간 같은 사고',
+    subtitle: 'Thinking Humanly',
+    color: 'purple',
+    desc: '인간의 인지 과정과 마음이 어떻게 작동하는지 연구해, 그 방식 그대로 기계로 흉내 내려 했습니다. 뇌과학·신경과학·심리학의 연구 결과를 컴퓨터 모델로 구현합니다.',
+    example: '💡 신경과학·심리학 연구 결과를 계산 모델로 구현 (예: 인공 신경망)',
+  },
+  {
+    title: '합리적 행동',
+    subtitle: 'Acting Rationally',
+    color: 'green',
+    desc: '어떻게 생각하는지 고민하지 말고, 주어진 상황에서 최선의 결과를 내는 행동을 하는 기계를 만들자는 방향입니다. 현재 AI 연구의 주류를 이루는 관점입니다.',
+    example: '💡 쇼핑몰 AI: 가격·품질·취향을 종합해 최적 상품 추천',
+  },
+  {
+    title: '합리적 사고',
+    subtitle: 'Thinking Rationally',
+    color: 'amber',
+    desc: '논리학의 삼단 논법처럼, 올바른 전제에서 항상 옳은 결론을 이끌어 내는 사고 방식을 기계로 구현하려 했습니다. 수학적·논리적 추론을 기반으로 합니다.',
+    example: '💡 "모든 사람은 죽는다 → 소크라테스는 사람이다 → 소크라테스는 죽는다"',
+  },
+]
+
+const traitColors = {
+  blue:   { border: 'border-blue-200',   bg: 'bg-blue-50',   title: 'text-blue-800',   sub: 'text-blue-500',   open: 'bg-blue-100' },
+  purple: { border: 'border-purple-200', bg: 'bg-purple-50', title: 'text-purple-800', sub: 'text-purple-500', open: 'bg-purple-100' },
+  green:  { border: 'border-green-200',  bg: 'bg-green-50',  title: 'text-green-800',  sub: 'text-green-500',  open: 'bg-green-100' },
+  amber:  { border: 'border-amber-200',  bg: 'bg-amber-50',  title: 'text-amber-800',  sub: 'text-amber-500',  open: 'bg-amber-100' },
+}
+
+function AITraitCards() {
+  const [openId, setOpenId] = useState(null)
+  return (
+    <div className="space-y-2">
+      {aiTraits.map(item => {
+        const c = traitColors[item.color]
+        const isOpen = openId === item.title
+        return (
+          <div
+            key={item.title}
+            className={`rounded-2xl border overflow-hidden transition-all ${c.border}`}
+          >
+            <button
+              onClick={() => setOpenId(isOpen ? null : item.title)}
+              className={`w-full flex items-center justify-between px-5 py-4 transition-colors ${isOpen ? c.open : `${c.bg} hover:${c.open}`}`}
+            >
+              <div className="text-left">
+                <p className={`font-bold text-sm ${c.title}`}>{item.title}</p>
+                <p className={`text-xs mt-0.5 ${c.sub}`}>{item.subtitle}</p>
+              </div>
+              <span className={`text-lg font-bold transition-transform duration-200 ${c.title} ${isOpen ? 'rotate-180' : ''}`}>▾</span>
+            </button>
+            {isOpen && (
+              <div className={`px-5 pb-4 pt-3 ${c.bg} border-t ${c.border}`}>
+                <p className="text-sm text-slate-700 leading-relaxed mb-2">{item.desc}</p>
+                <p className="text-xs text-slate-500 bg-white/70 rounded-xl px-3 py-1.5">{item.example}</p>
+              </div>
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 function YouTubeEmbed({ videoId }) {
   const [playing, setPlaying] = useState(false)
   return playing ? (
@@ -226,45 +299,8 @@ export default function Lesson1_1() {
       {/* 2. AI의 4가지 특성 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">2. 인공지능의 4가지 특성</h2>
-        <p className="text-sm text-slate-600 mb-4">피터 노빅과 스튜어트 러셀은 AI가 아래 4가지 특성을 가진다고 했습니다. 어떤 특성을 중요하게 보느냐에 따라 연구 방향이 완전히 달라집니다.</p>
-        <div className="space-y-3">
-          {[
-            {
-              title: '인간 같은 행동 (Acting Humanly)',
-              color: 'blue',
-              desc: '사람처럼 대화하고, 물체를 알아보고, 문제를 스스로 해결하는 기계를 만들려 했습니다.',
-              example: '💡 튜링 테스트: 심사원이 컴퓨터와 사람을 구분하지 못하면 통과!',
-            },
-            {
-              title: '인간 같은 사고 (Thinking Humanly)',
-              color: 'purple',
-              desc: '인간의 인지 과정과 마음을 연구해, 그것을 기계로 흉내 내려 했습니다.',
-              example: '💡 신경과학·심리학 연구 결과를 계산 모델로 구현',
-            },
-            {
-              title: '합리적 행동 (Acting Rationally)',
-              color: 'green',
-              desc: '어떻게 생각하는지 고민하지 말고, 주어진 상황에서 최선의 행동을 하는 기계를 만들자는 방향입니다.',
-              example: '💡 쇼핑몰 AI: 가격·품질·취향을 종합해 최적 상품 추천',
-            },
-            {
-              title: '합리적 사고 (Thinking Rationally)',
-              color: 'amber',
-              desc: '삼단 논법처럼 올바른 전제에서 항상 옳은 결론을 이끌어 내는 방식을 연구했습니다.',
-              example: '💡 "모든 사람은 죽는다 → 소크라테스는 사람이다 → 그러므로 소크라테스는 죽는다"',
-            },
-          ].map(item => {
-            const bg = { blue: 'bg-blue-50 border-blue-200', purple: 'bg-purple-50 border-purple-200', green: 'bg-green-50 border-green-200', amber: 'bg-amber-50 border-amber-200' }
-            const title = { blue: 'text-blue-800', purple: 'text-purple-800', green: 'text-green-800', amber: 'text-amber-800' }
-            return (
-              <div key={item.title} className={`rounded-2xl border p-4 ${bg[item.color]}`}>
-                <p className={`font-bold text-sm mb-1 ${title[item.color]}`}>{item.title}</p>
-                <p className="text-sm text-slate-700 mb-2">{item.desc}</p>
-                <p className="text-xs text-slate-500 bg-white/70 rounded-xl px-3 py-1.5">{item.example}</p>
-              </div>
-            )
-          })}
-        </div>
+        <p className="text-sm text-slate-600 mb-3">피터 노빅과 스튜어트 러셀은 AI가 아래 4가지 특성을 가진다고 했습니다. 카드를 클릭해 각 특성을 확인해보세요.</p>
+        <AITraitCards />
       </section>
 
       {/* 튜링 테스트 FlipReveal */}
