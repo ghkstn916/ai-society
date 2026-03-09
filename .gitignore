@@ -26,3 +26,7 @@ dist-ssr
 # PDF and extracted text
 *.pdf
 1_1_text.txt
+pdf_info.txt
+
+# Claude local settings
+.claude/
