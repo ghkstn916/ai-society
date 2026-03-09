@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
 
-const sectors = [
+const mainSectors = [
   {
     icon: '🏭',
     name: '제조·물류',
@@ -20,7 +21,7 @@ const sectors = [
     icon: '🏥',
     name: '의료',
     img: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=500&h=200&fit=crop',
-    desc: '2018년 AI가 20년 경력 안과 의사 수준으로 당뇨성 망막증을 자동 진단하는 시스템이 미국 식약청 인증을 받았습니다.',
+    desc: '비싼 정밀 의료 기기 없이도 AI로 신체적 질환을 진단하고, 환자의 대화 문장을 분석해 질병에 걸릴 확률을 예측합니다. 2018년 AI가 20년 경력 안과 의사 수준으로 당뇨성 망막증을 자동 진단하는 시스템이 미국 식약청 인증을 받았습니다.',
     jobs: '빅 데이터 전문가 · 정보 보호 전문가',
   },
   {
@@ -39,19 +40,90 @@ const sectors = [
   },
 ]
 
+const expandedSectors = [
+  {
+    id: 'law',
+    icon: '⚖️',
+    name: '법률',
+    color: 'blue',
+    desc: '과거에는 변호사가 며칠에 걸쳐 하던 일을 AI 프로그램이 손쉽게 해결할 수 있습니다. 수천 건의 판례 중에서 관련도가 높은 순서대로 나열하고, 변론을 위한 주장을 뒷받침하는 근거를 추천받을 수 있습니다.',
+    highlight: '💡 AI가 계약서 자문 대회에서 150점 만점에 100점 이상을 받은 반면, 일반 변호사는 50~60점대에 그쳤습니다. (연합뉴스, 2019)',
+  },
+  {
+    id: 'finance',
+    icon: '💹',
+    name: '금융',
+    color: 'green',
+    desc: '주식은 국제 정세나 정치 문제 등 여러 요소에 따라 달라지기에 전문가에게도 어렵습니다. AI는 다양한 정보를 수집·분석해 어떤 종목에 투자해야 할지 예측하고 자동으로 주식을 사고팝니다.',
+    highlight: '💡 신속하고 정확하며 방대한 업무가 필수적인 금융 영역에서 AI 기반 서비스는 더욱 확대될 것입니다.',
+  },
+  {
+    id: 'culture',
+    icon: '🎨',
+    name: '문화·예술',
+    color: 'purple',
+    desc: 'AI 프로그램이 작성한 소설이 일본 문학상 1차 심사를 통과했고, 추상 미술에도 진출했습니다. 바로크에서 현대 음악까지 아우르는 작곡·작사 실력도 선보였습니다.',
+    highlight: '💡 AI가 생산한 저작물의 저작권을 누가 가지게 될지 등 윤리적 쟁점이 남아 있습니다.',
+  },
+  {
+    id: 'home',
+    icon: '🏠',
+    name: '홈서비스',
+    color: 'teal',
+    desc: '현재 많은 가정에서 AI 기반 청소기나 세탁기를 사용합니다. 앱으로 휴대 전화나 태블릿으로 집 안 환경을 제어할 수도 있습니다. 앞으로는 더 나은 음성 인식 기술로 짐을 배달하거나 사무실을 청소하는 전문 로봇이 나올 것입니다.',
+    highlight: '💡 스마트홈: AI로 냉난방·조명·보안 기기를 통합 제어하는 생활이 현실화되고 있습니다.',
+  },
+  {
+    id: 'entertainment',
+    icon: '🎬',
+    name: '엔터테인먼트',
+    color: 'pink',
+    desc: '콘텐츠 제작 도구와 소셜 네트워크, AI의 결합으로 새로운 형태의 엔터테인먼트들이 등장하고 있으며, 개인화된 쌍방향 미디어가 더욱 발전할 것입니다. 고품질의 음악이나 댄스 콘텐츠 제작을 더욱 손쉽게 할 수 있게 됩니다.',
+    highlight: '💡 AI가 시청 패턴을 분석해 개인에게 최적화된 콘텐츠를 자동 추천하고 제작까지 보조합니다.',
+  },
+  {
+    id: 'security',
+    icon: '🔒',
+    name: '공공 안전 및 보안',
+    color: 'red',
+    desc: '인공지능의 활약이 가장 기대되는 분야로, 신용 카드 사기 같은 범죄 추적에 기여할 것으로 보입니다. 단, AI 적용을 위해 감시 카메라 설치와 개인 계좌 이력 조회 등이 필요하며, 사생활 침해 우려도 있어 제도적 장치가 필요합니다.',
+    highlight: '💡 안전과 프라이버시 사이의 균형을 어떻게 맞출 것인지가 중요한 사회적 과제입니다.',
+  },
+  {
+    id: 'edu',
+    icon: '📚',
+    name: '교육',
+    color: 'amber',
+    desc: '학생들의 수준에 따른 맞춤형 교수 학습 지원은 교육 분야의 오랜 관심사입니다. AI 기술로 개별 학습자의 이해를 진단하고 적합한 콘텐츠 및 피드백을 제공합니다. 현재는 어학 학습이나 진학에 도움을 주는 서비스가 많으며 범위가 점차 확대되고 있습니다.',
+    highlight: '💡 AI 교사는 학생 한 명 한 명의 학습 속도와 수준에 맞춰 24시간 개별 지도가 가능합니다.',
+  },
+]
+
+const colorMap = {
+  blue:   'border-blue-200 bg-blue-50 text-blue-800',
+  green:  'border-green-200 bg-green-50 text-green-800',
+  purple: 'border-purple-200 bg-purple-50 text-purple-800',
+  teal:   'border-teal-200 bg-teal-50 text-teal-800',
+  pink:   'border-pink-200 bg-pink-50 text-pink-800',
+  red:    'border-red-200 bg-red-50 text-red-800',
+  amber:  'border-amber-200 bg-amber-50 text-amber-800',
+}
+
 export default function Lesson2_2() {
+  const [openSector, setOpenSector] = useState(null)
+
   return (
     <article className="space-y-8">
       <header>
         <span className="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-semibold mb-3">모듈 2 · 레슨 2</span>
         <h1 className="text-2xl font-extrabold text-slate-800 mb-2">인공지능과 사회 각 분야의 변화</h1>
-        <p className="text-slate-500 text-sm">제조·교통·의료·건설·환경 분야에서 AI가 어떤 혁신을 가져오고 있는지 살펴봅니다.</p>
+        <p className="text-slate-500 text-sm">제조·의료·법률·금융·문화예술 등 12개 분야에서 AI가 어떤 혁신을 가져오고 있는지 살펴봅니다.</p>
       </header>
 
       <section className="rounded-2xl bg-green-50 border border-green-200 p-5">
         <h2 className="font-bold text-green-800 mb-3">이 레슨에서 배우는 것</h2>
         <ul className="space-y-1.5 text-sm text-green-900">
-          <li className="flex items-start gap-2"><span>•</span> 5개 이상의 산업 분야에서 AI 활용 사례를 설명할 수 있다</li>
+          <li className="flex items-start gap-2"><span>•</span> 12개 이상의 산업·사회 분야에서 AI 활용 사례를 설명할 수 있다</li>
           <li className="flex items-start gap-2"><span>•</span> 각 분야에서 AI로 인해 새롭게 필요한 직업을 파악할 수 있다</li>
           <li className="flex items-start gap-2"><span>•</span> 인공지능이 경제에 미치는 거시적 영향을 이해한다</li>
         </ul>
@@ -80,11 +152,11 @@ export default function Lesson2_2() {
         <p className="text-xs text-slate-400 text-center">출처: 매킨지 글로벌 리서치</p>
       </section>
 
-      {/* 분야별 변화 */}
+      {/* 핵심 5개 산업 분야 */}
       <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-4">2. 산업 분야별 AI 혁신</h2>
+        <h2 className="text-lg font-bold text-slate-800 mb-4">2. 핵심 산업 분야별 AI 혁신</h2>
         <div className="space-y-5">
-          {sectors.map(sec => (
+          {mainSectors.map(sec => (
             <div key={sec.name} className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
               <img src={sec.img} alt={sec.name} className="w-full h-36 object-cover" />
               <div className="p-4">
@@ -102,9 +174,57 @@ export default function Lesson2_2() {
         </div>
       </section>
 
+      {/* 추가 사회 영역 — 아코디언 */}
+      <section>
+        <h2 className="text-lg font-bold text-slate-800 mb-2">3. 더 넓은 사회 영역에서의 AI</h2>
+        <p className="text-sm text-slate-500 mb-3">카드를 클릭해 각 영역에서의 AI 활용을 확인해보세요.</p>
+        <div className="space-y-2">
+          {expandedSectors.map(sec => {
+            const isOpen = openSector === sec.id
+            const c = colorMap[sec.color] || colorMap.blue
+            return (
+              <div key={sec.id} className={`rounded-2xl border overflow-hidden transition-all ${isOpen ? c : 'border-slate-200 bg-white'}`}>
+                <button
+                  onClick={() => setOpenSector(isOpen ? null : sec.id)}
+                  className={`w-full flex items-center justify-between px-5 py-4 transition-colors ${isOpen ? '' : 'hover:bg-slate-50'}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{sec.icon}</span>
+                    <span className={`font-bold text-sm ${isOpen ? '' : 'text-slate-700'}`}>{sec.name} 영역</span>
+                  </div>
+                  <span className={`text-lg font-bold transition-transform duration-200 ${isOpen ? 'rotate-180' : 'text-slate-400'}`}>▾</span>
+                </button>
+                {isOpen && (
+                  <div className="px-5 pb-4 pt-2 border-t border-current border-opacity-20">
+                    <p className="text-sm text-slate-700 leading-relaxed mb-2">{sec.desc}</p>
+                    <p className="text-xs bg-white/60 rounded-xl px-3 py-2 text-slate-600">{sec.highlight}</p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* AI 법률 자문 뉴스 */}
+      <section>
+        <h2 className="text-lg font-bold text-slate-800 mb-3">💬 주목할 사례: AI, 법률 자문까지 넘본다</h2>
+        <div className="rounded-2xl bg-blue-50 border border-blue-200 p-5">
+          <p className="text-sm text-slate-700 leading-relaxed">
+            인공지능이 변호사를 상대로 한 법률 자문 대결에서 사람과 비교할 수 없을 만큼 빠르고 정확하게 계약서를 분석해 냈다. 계약서 자문 대회에 참가한 열두 팀은 제한 시간 50분 동안 근로 계약서 3종을 검토하였다. 채점 결과 AI 팀의 점수는 150점 만점 중 모두 100점을 상회하였는데 일반 변호사 팀 점수는 50~60점대로 절반 수준에 그쳤다.
+          </p>
+          <p className="text-xs text-slate-500 mt-2">출처: 연합뉴스(2019. 8. 31.)</p>
+        </div>
+        <FlipReveal
+          question="AI가 법률 자문에서 변호사를 이겼다면, 변호사라는 직업은 사라지는 걸까요?"
+          answer="반드시 그렇지는 않습니다. AI는 판례 검색과 문서 분류 같은 반복 업무를 잘하지만, 의뢰인의 감정을 이해하고, 복잡한 상황을 종합적으로 판단하며, 윤리적 결정을 내리는 일은 아직 인간이 더 잘합니다. 변호사는 AI를 도구로 활용해 더 중요한 일에 집중하게 될 것입니다."
+          storageKey="ai-m2l2-flip-law"
+        />
+      </section>
+
       {/* 인공지능 국가전략 */}
       <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-3">3. 우리나라의 인공지능 국가전략</h2>
+        <h2 className="text-lg font-bold text-slate-800 mb-3">4. 우리나라의 인공지능 국가전략</h2>
         <div className="rounded-2xl bg-gradient-to-br from-blue-700 to-indigo-700 text-white p-5">
           <p className="text-xs font-semibold text-blue-200 mb-2">2019년 제53회 국무회의 발표</p>
           <p className="font-bold mb-3">2030년까지 최대 455조 원의 경제 효과 창출 목표</p>
@@ -114,16 +234,6 @@ export default function Lesson2_2() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* 탐구 활동 */}
-      <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-3">💭 생각해보기</h2>
-        <FlipReveal
-          question="법률·농업·문화·예술 분야에서도 AI가 활용됩니다. 각 분야에서 어떻게 쓰이는지 한 가지씩 생각해보세요."
-          answer="법률: AI 변호사(law-bo)가 판례 검색 담당 / 농업: 드론이 작물 상태를 AI로 분석해 최적 비료·물 공급 / 문화: AI가 작곡·그림 창작 보조 / 예술: 딥페이크 기술로 영화 특수효과 제작 등 다양한 활용이 이루어지고 있습니다."
-          storageKey="ai-m2l2-flip-0"
-        />
       </section>
 
       {/* 퀴즈 */}
@@ -143,16 +253,16 @@ export default function Lesson2_2() {
           storageKey="ai-m2l2-quiz-0"
         />
         <ChoiceQuiz
-          question="건설 현장에서 AI 드론의 활용 효과로 적절하지 않은 것은?"
+          question="AI의 법률·금융 분야 활용에 대한 설명으로 옳은 것은?"
           options={[
-            '24시간 자율 주행 장비 가동으로 건설 시간 단축',
-            '현장 촬영 데이터로 위험 요소 사전 감지',
-            '건설 근로자의 안전 강화',
-            '건설 비용 절감',
-            '드론이 직접 벽돌을 쌓아 인력을 완전히 대체',
+            'AI는 판례 분석을 전혀 하지 못한다',
+            'AI는 주식 거래를 자동으로 수행하는 시스템에 이미 활용되고 있다',
+            'AI가 법률 자문을 맡으면 변호사 직업은 즉시 사라진다',
+            'AI는 금융 분야에서 개인 투자자만 이용할 수 있다',
+            'AI는 금융 예측에서 항상 100% 정확하다',
           ]}
-          answer={4}
-          explanation="AI 드론은 현장 모니터링·데이터 수집·자율 장비 운용을 지원하지만, 모든 건설 작업을 완전 대체하지는 않습니다."
+          answer={1}
+          explanation="AI는 이미 다양한 정보를 수집·분석해 자동으로 주식을 사고파는 시스템에 활용되고 있습니다."
           storageKey="ai-m2l2-quiz-1"
         />
       </section>
@@ -160,9 +270,9 @@ export default function Lesson2_2() {
       <section className="rounded-2xl bg-slate-800 text-white p-5">
         <h2 className="font-bold mb-3">이번 레슨에서 배운 것</h2>
         <ul className="space-y-2 text-sm text-slate-200">
-          <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> AI는 제조·교통·의료·건설·환경 등 거의 모든 산업 분야를 변화시키고 있다</li>
-          <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> AI 도입으로 새로운 전문 직업들이 생겨나고 있다</li>
-          <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> 매킨지 추정: AI로 2030년까지 글로벌 GDP가 13조 달러 증가 예상</li>
+          <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> AI는 제조·교통·의료·건설·환경 등 핵심 산업을 변화시키고 있다</li>
+          <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> 법률·금융·문화예술·홈서비스·엔터테인먼트·공공안전·교육 영역까지 확산 중이다</li>
+          <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> AI는 반복 업무를 빠르게 처리하지만 윤리적 판단·감성적 소통은 인간이 보완한다</li>
           <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> 우리나라도 AI 국가전략을 통해 2030년 455조 원 경제 효과 목표</li>
         </ul>
       </section>

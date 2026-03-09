@@ -13,6 +13,33 @@ const jobItems = [
   { id: 'j8', label: '사진작가', correct: 'B' },
 ]
 
+const aiExperts = [
+  {
+    name: '앨런 튜링 (Alan Turing)',
+    role: '인공지능의 아버지',
+    desc: '현대 컴퓨터의 모형인 튜링 머신과 기계 지능을 판단하는 튜링 테스트 개념을 제안했다. 2021년 영국 중앙은행 새 지폐 도안의 인물로 선정됐다.',
+    icon: '🖥️',
+  },
+  {
+    name: '제프리 힌턴 (Geoffrey Hinton)',
+    role: '딥러닝의 아버지',
+    desc: '신경망 분야를 부활시킨 딥러닝 개념을 만들었다. 2018년 요슈아 벤지오, 얀 르쿤과 함께 컴퓨터 과학의 노벨상이라 불리는 튜링상을 공동 수상했다.',
+    icon: '🧠',
+  },
+  {
+    name: '페이페이 리 (Fei-Fei Li)',
+    role: '컴퓨터 비전 연구자',
+    desc: '컴퓨터 비전 분야를 이끌며 세계 최대 이미지 데이터베이스인 이미지넷(ImageNet) 구축을 주도했다. 이미지넷 대회에서 딥러닝 기술이 압도적 성능을 보이며 AI 붐의 전환점이 됐다.',
+    icon: '📸',
+  },
+  {
+    name: '아라이 노리코 (新井 紀子)',
+    role: 'AI 한계 연구자',
+    desc: '인공지능 로봇이 도쿄 대학교 합격을 목표로 입시를 치를 수 있는지 실험(도로보쿤 프로젝트)했다. AI의 한계와 인간 교육의 방향을 연구하는 데 결과를 활용 중이다.',
+    icon: '🎓',
+  },
+]
+
 export default function Lesson2_3() {
   return (
     <article className="space-y-8">
@@ -26,6 +53,7 @@ export default function Lesson2_3() {
         <h2 className="font-bold text-green-800 mb-3">이 레슨에서 배우는 것</h2>
         <ul className="space-y-1.5 text-sm text-green-900">
           <li className="flex items-start gap-2"><span>•</span> 자동화 대체율이 높은/낮은 직업의 특징을 설명할 수 있다</li>
+          <li className="flex items-start gap-2"><span>•</span> AI 시대의 세 가지 직업 방향을 이해한다</li>
           <li className="flex items-start gap-2"><span>•</span> 인공지능 유창성의 개념을 이해한다</li>
           <li className="flex items-start gap-2"><span>•</span> AI 시대를 준비하는 구체적인 자세를 생각할 수 있다</li>
         </ul>
@@ -45,9 +73,59 @@ export default function Lesson2_3() {
         </div>
       </section>
 
+      {/* AI 시대 세 가지 직업 방향 */}
+      <section>
+        <h2 className="text-lg font-bold text-slate-800 mb-3">2. AI 시대의 세 가지 직업 방향</h2>
+        <p className="text-sm text-slate-600 mb-4">AI 기술이 발전하면서 직업 세계는 크게 세 가지 방향으로 변화하고 있습니다.</p>
+        <div className="space-y-3">
+          {[
+            {
+              num: '①',
+              title: 'AI를 연구·개발한다',
+              color: 'blue',
+              desc: '인공지능 알고리즘, 딥러닝 모델, 데이터 처리 기술 등을 직접 연구하고 개발하는 직업입니다. AI 연구원, 머신러닝 엔지니어 등이 여기에 해당합니다.',
+              example: '예: AI 연구원, 머신러닝 엔지니어, 딥러닝 개발자',
+            },
+            {
+              num: '②',
+              title: 'AI를 적용해 새로운 제품·서비스를 만든다',
+              color: 'green',
+              desc: '기존 AI 기술을 활용해 새로운 제품이나 서비스를 기획·개발하는 직업입니다. AI 스타트업 창업자, AI 프로덕트 매니저 등이 여기에 해당합니다.',
+              example: '예: AI 프로덕트 매니저, AI 서비스 기획자, AI 스타트업 창업자',
+            },
+            {
+              num: '③',
+              title: '자신의 직업에 AI를 활용한다',
+              color: 'purple',
+              desc: '의사·교사·변호사·디자이너 등 기존 직업을 가진 사람이 AI 도구를 업무에 활용해 더 효율적으로 일하는 방향입니다. 가장 많은 사람에게 해당되는 변화입니다.',
+              example: '예: AI를 활용하는 의사·변호사·교사·디자이너·기자',
+            },
+          ].map(item => {
+            const bg = { blue: 'bg-blue-50 border-blue-200', green: 'bg-green-50 border-green-200', purple: 'bg-purple-50 border-purple-200' }
+            const text = { blue: 'text-blue-800', green: 'text-green-800', purple: 'text-purple-800' }
+            const sub = { blue: 'text-blue-600', green: 'text-green-600', purple: 'text-purple-600' }
+            return (
+              <div key={item.num} className={`rounded-2xl border p-4 ${bg[item.color]}`}>
+                <div className="flex items-start gap-3">
+                  <span className={`text-lg font-extrabold flex-shrink-0 ${text[item.color]}`}>{item.num}</span>
+                  <div>
+                    <p className={`font-bold text-sm mb-1 ${text[item.color]}`}>{item.title}</p>
+                    <p className="text-sm text-slate-700 mb-2 leading-relaxed">{item.desc}</p>
+                    <p className={`text-xs ${sub[item.color]}`}>{item.example}</p>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        <div className="mt-3 rounded-xl bg-slate-50 border border-slate-200 p-3 text-xs text-slate-500">
+          💡 특히 ③번 방향은 여러분 모두에게 해당됩니다. 미래의 직업에서 AI를 도구로 활용할 줄 아는 능력이 점점 중요해지고 있습니다.
+        </div>
+      </section>
+
       {/* 자동화 대체율 분류 활동 */}
       <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-2">2. 활동: 자동화 대체율 분류하기</h2>
+        <h2 className="text-lg font-bold text-slate-800 mb-2">3. 활동: 자동화 대체율 분류하기</h2>
         <p className="text-sm text-slate-600 mb-1">아래 직업들을 자동화 대체율이 높은 직업과 낮은 직업으로 분류해 보세요.</p>
         <p className="text-xs text-slate-400 mb-3">힌트: 반복적·정형화된 작업 vs 창의적·감성적 작업</p>
         <SortCards
@@ -63,7 +141,7 @@ export default function Lesson2_3() {
 
       {/* 대체율 특징 */}
       <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-3">3. 자동화 대체율이 높은 직업의 특징</h2>
+        <h2 className="text-lg font-bold text-slate-800 mb-3">4. 자동화 대체율이 높은/낮은 직업의 특징</h2>
         <div className="space-y-3">
           <div className="rounded-2xl bg-red-50 border border-red-200 p-4">
             <p className="font-bold text-red-700 mb-2 text-sm">⚠️ 대체 위험이 높은 직업</p>
@@ -86,7 +164,7 @@ export default function Lesson2_3() {
 
       {/* 인공지능 유창성 */}
       <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-3">4. 미래 핵심 역량: 인공지능 유창성</h2>
+        <h2 className="text-lg font-bold text-slate-800 mb-3">5. 미래 핵심 역량: 인공지능 유창성</h2>
         <img
           src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=700&h=250&fit=crop"
           alt="미래 직업 준비"
@@ -107,16 +185,34 @@ export default function Lesson2_3() {
         />
       </section>
 
+      {/* AI 전문가 소개 */}
+      <section>
+        <h2 className="text-lg font-bold text-slate-800 mb-3">6. 주목할 AI 전문가들</h2>
+        <p className="text-sm text-slate-500 mb-4">AI 분야의 발전을 이끈 주요 인물들을 알아봅시다.</p>
+        <div className="space-y-3">
+          {aiExperts.map(expert => (
+            <div key={expert.name} className="flex gap-4 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm">
+              <span className="text-3xl flex-shrink-0">{expert.icon}</span>
+              <div>
+                <p className="text-sm font-bold text-slate-800">{expert.name}</p>
+                <p className="text-xs font-semibold text-green-600 mb-1">{expert.role}</p>
+                <p className="text-sm text-slate-600 leading-relaxed">{expert.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* 인공지능 관련 유망 직업 */}
       <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-3">5. AI 관련 유망 직업</h2>
+        <h2 className="text-lg font-bold text-slate-800 mb-3">7. AI 관련 유망 직업</h2>
         <div className="grid grid-cols-1 gap-3">
           {[
             { title: '인공지능 엔지니어', desc: 'AI 솔루션 설계 및 개발 담당' },
-            { title: 'AI Technology R&D', desc: '최신 기술 동향을 탐색하고 AI 응용 분야 기반 기술 개발' },
             { title: '데이터 사이언티스트', desc: '대규모 데이터 분석으로 의사결정 지원' },
             { title: '기계학습 전문가', desc: 'AI가 데이터를 학습해 정확한 예측을 하도록 모델 설계' },
             { title: 'AI 윤리 전문가', desc: 'AI 시스템의 공정성·투명성·안전성 검토' },
+            { title: '로봇 감성 인지 연구원', desc: '로봇이 인간의 의도에 따라 효율적으로 작동하도록 연구' },
           ].map(job => (
             <div key={job.title} className="flex gap-3 bg-white border border-slate-200 rounded-xl p-3 shadow-sm">
               <span className="text-lg mt-0.5">💼</span>
@@ -158,15 +254,29 @@ export default function Lesson2_3() {
           explanation="AI 유창성은 AI와 인간의 강점을 이해하고, 상황에 맞게 AI를 협업 도구로 활용하는 미래 핵심 역량입니다."
           storageKey="ai-m2l3-quiz-1"
         />
+        <ChoiceQuiz
+          question="딥러닝 개념을 만들어 2018년 튜링상을 수상한 인물이 아닌 사람은?"
+          options={[
+            '제프리 힌턴 (Geoffrey Hinton)',
+            '요슈아 벤지오 (Yoshua Bengio)',
+            '얀 르쿤 (Yann LeCun)',
+            '페이페이 리 (Fei-Fei Li)',
+            '위 세 명 모두 수상했다',
+          ]}
+          answer={3}
+          explanation="2018년 튜링상은 딥러닝 개념을 만든 제프리 힌턴, 요슈아 벤지오, 얀 르쿤이 공동 수상했습니다. 페이페이 리는 이미지넷 구축으로 알려진 컴퓨터 비전 연구자입니다."
+          storageKey="ai-m2l3-quiz-2"
+        />
       </section>
 
       <section className="rounded-2xl bg-slate-800 text-white p-5">
         <h2 className="font-bold mb-3">이번 레슨에서 배운 것</h2>
         <ul className="space-y-2 text-sm text-slate-200">
+          <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> AI 시대 직업은 ① AI 연구·개발 ② AI로 제품·서비스 제작 ③ 직업에 AI 활용, 세 방향으로 변화한다</li>
           <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> AI는 일자리를 없애기도 하지만 동시에 새로운 직업을 만들어낸다</li>
           <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> 반복·정형화 직업은 대체율 높음 / 창의·감성 직업은 대체율 낮음</li>
           <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> 인공지능 유창성: AI와 협업하는 능력이 미래 필수 역량</li>
-          <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> AI를 두려워하지 말고 정확히 이해하고 활용하는 자세가 중요하다</li>
+          <li className="flex items-start gap-2"><span className="text-green-400 mt-0.5">✓</span> 제프리 힌턴(딥러닝), 페이페이 리(이미지넷) 등이 현대 AI 발전을 이끌었다</li>
         </ul>
       </section>
     </article>
