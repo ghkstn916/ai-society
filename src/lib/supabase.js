@@ -37,3 +37,29 @@ export async function fetchAllProgress() {
   if (error) console.error(error)
   return data || []
 }
+
+// ── 주관식 답변 저장/조회 ──────────────────────────────────────────
+export async function submitQuizResponses(studentId, studentName, quizId, textAnswers) {
+  if (!supabase) return
+  const rows = textAnswers.map(({ questionIdx, question, answer }) => ({
+    student_id: studentId,
+    student_name: studentName,
+    quiz_id: quizId,
+    question_idx: questionIdx,
+    question,
+    answer,
+  }))
+  await supabase
+    .from('quiz_responses')
+    .upsert(rows, { onConflict: 'student_id,quiz_id,question_idx' })
+}
+
+export async function fetchQuizResponses() {
+  if (!supabase) return []
+  const { data, error } = await supabase
+    .from('quiz_responses')
+    .select('*')
+    .order('submitted_at', { ascending: true })
+  if (error) console.error(error)
+  return data || []
+}

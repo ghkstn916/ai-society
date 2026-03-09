@@ -73,7 +73,7 @@ export default function Quiz2() {
       <div className="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-sm text-amber-800">
         💡 모든 문항에 답한 후 제출 버튼을 눌러 결과를 확인하세요.
       </div>
-      <FormativeQuiz questions={questions} storageKey="ai-m2-formative" />
+      <FormativeQuiz questions={questions} storageKey="ai-m2-formative" quizId="quiz2" />
     </article>
   )
 }

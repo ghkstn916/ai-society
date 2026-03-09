@@ -1,6 +1,7 @@
 import usePersistentState from '../../hooks/usePersistentState.js'
+import { getStudentInfo, submitQuizResponses } from '../../lib/supabase.js'
 
-export default function FormativeQuiz({ questions, storageKey = null }) {
+export default function FormativeQuiz({ questions, storageKey = null, quizId = null }) {
   const [answers, setAnswers] = usePersistentState(storageKey ? storageKey + '-ans' : null, {})
   const [submitted, setSubmitted] = usePersistentState(storageKey ? storageKey + '-sub' : null, false)
 
@@ -84,7 +85,19 @@ export default function FormativeQuiz({ questions, storageKey = null }) {
 
       {!submitted ? (
         <button
-          onClick={() => setSubmitted(true)}
+          onClick={() => {
+            setSubmitted(true)
+            if (quizId) {
+              const textAnswers = questions
+                .map((q, i) => ({ q, i }))
+                .filter(({ q }) => q.type === 'text')
+                .map(({ q, i }) => ({ questionIdx: i, question: q.question, answer: answers[i] || '' }))
+              if (textAnswers.length > 0) {
+                const info = getStudentInfo()
+                if (info) submitQuizResponses(info.studentId, info.studentName, quizId, textAnswers)
+              }
+            }
+          }}
           disabled={!allAnswered}
           className="w-full py-3 bg-blue-600 text-white rounded-2xl font-semibold text-sm disabled:opacity-40 hover:bg-blue-700 transition-colors"
         >
