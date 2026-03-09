@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom'
 import { getAdjacentLessons } from '../../data/lessonRegistry.js'
 import useProgressStore from '../../store/progressStore.js'
 
+function scrollTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 export default function LessonNav({ lessonId }) {
   const { prev, next } = getAdjacentLessons(lessonId)
   const { markComplete, isComplete } = useProgressStore()
@@ -13,6 +17,7 @@ export default function LessonNav({ lessonId }) {
         {prev ? (
           <Link
             to={`/lesson/${prev.moduleId}/${prev.id}`}
+            onClick={scrollTop}
             className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 transition-colors"
           >
             ← {prev.title}
@@ -33,6 +38,7 @@ export default function LessonNav({ lessonId }) {
         {next ? (
           <Link
             to={`/lesson/${next.moduleId}/${next.id}`}
+            onClick={scrollTop}
             className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 transition-colors"
           >
             {next.title} →

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
 import SortCards from '../../components/interactive/SortCards.jsx'
@@ -11,7 +12,28 @@ const abilityItems = [
   { id: 'a6', label: '모호한 상황에서 직감으로 판단', correct: 'A' },
 ]
 
+const aiTypeCards = [
+  {
+    id: 'strong',
+    title: '강한 AI (Strong AI)',
+    emoji: '🧠',
+    color: 'red',
+    desc: '인간처럼 다양한 상황에서 범용적으로 문제를 해결하고, 독립적인 의지·자아·양심을 가진 AI입니다. 아직 영화 속에서만 존재합니다.',
+    example: '예시: 영화 속 로봇 AI, 터미네이터 같은 자의식을 가진 AI',
+  },
+  {
+    id: 'weak',
+    title: '약한 AI (Weak AI)',
+    emoji: '⚙️',
+    color: 'green',
+    desc: '특정 영역 안에서 전문가를 능가하는 능력을 가진 AI입니다. 현재 우리 주변의 대부분의 AI가 여기에 해당합니다.',
+    example: '예시: 알파고(바둑), 왓슨(퀴즈쇼), 챗GPT(대화), 얼굴 인식',
+  },
+]
+
 export default function Lesson1_2() {
+  const [openCard, setOpenCard] = useState(null)
+
   return (
     <article className="space-y-8">
       <header>
@@ -33,8 +55,8 @@ export default function Lesson1_2() {
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">1. 인공지능은 어떻게 작동할까?</h2>
         <img
-          src="https://images.unsplash.com/photo-1677442136019-21780ecad7b6?w=700&h=280&fit=crop"
-          alt="인공지능 뇌 이미지"
+          src="https://cdn.freezinenews.com/news/photo/202411/2223_2819_4941.jpg"
+          alt="인공지능 작동 원리"
           className="w-full rounded-2xl object-cover mb-4 shadow"
         />
         <div className="rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-5 mb-4">
@@ -73,23 +95,42 @@ export default function Lesson1_2() {
         </div>
       </section>
 
-      {/* 강한 AI vs 약한 AI */}
+      {/* 강한 AI vs 약한 AI — 키카드 아코디언 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">4. 강한 AI vs 약한 AI</h2>
-        <img
-          src="https://images.unsplash.com/photo-1535378620166-273708d44e4c?w=700&h=240&fit=crop"
-          alt="AI 로봇"
-          className="w-full rounded-2xl object-cover mb-4 shadow"
-        />
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-2xl bg-red-50 border border-red-200 p-4">
-            <p className="font-bold text-red-700 mb-2">강한 AI</p>
-            <p className="text-sm text-slate-600">인간처럼 다양한 상황에서 범용적으로 문제를 해결하고, 독립적인 의지·자아·양심을 가진 AI. 아직 영화 속에서만 존재합니다.</p>
-          </div>
-          <div className="rounded-2xl bg-green-50 border border-green-200 p-4">
-            <p className="font-bold text-green-700 mb-2">약한 AI</p>
-            <p className="text-sm text-slate-600">특정 영역 안에서 전문가를 능가하는 능력을 가진 AI. 현재 우리 주변의 대부분의 AI가 여기에 해당합니다.</p>
-          </div>
+        <p className="text-sm text-slate-500 mb-3">카드를 클릭하면 설명이 펼쳐집니다.</p>
+        <div className="space-y-3">
+          {aiTypeCards.map(card => {
+            const isOpen = openCard === card.id
+            const borderColor = card.color === 'red' ? 'border-red-300' : 'border-green-300'
+            const bgColor = card.color === 'red' ? 'bg-red-50' : 'bg-green-50'
+            const titleColor = card.color === 'red' ? 'text-red-700' : 'text-green-700'
+            const headerBg = card.color === 'red'
+              ? isOpen ? 'bg-red-100' : 'bg-red-50 hover:bg-red-100'
+              : isOpen ? 'bg-green-100' : 'bg-green-50 hover:bg-green-100'
+            return (
+              <div key={card.id} className={`rounded-2xl border overflow-hidden transition-all ${borderColor}`}>
+                <button
+                  onClick={() => setOpenCard(isOpen ? null : card.id)}
+                  className={`w-full flex items-center justify-between px-5 py-4 transition-colors ${headerBg}`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{card.emoji}</span>
+                    <span className={`font-bold text-base ${titleColor}`}>{card.title}</span>
+                  </div>
+                  <span className={`text-lg font-bold transition-transform duration-200 ${titleColor} ${isOpen ? 'rotate-180' : ''}`}>
+                    ▾
+                  </span>
+                </button>
+                {isOpen && (
+                  <div className={`px-5 pb-4 pt-3 ${bgColor} border-t ${borderColor}`}>
+                    <p className="text-sm text-slate-700 leading-relaxed mb-2">{card.desc}</p>
+                    <p className="text-xs text-slate-500 bg-white/70 rounded-xl px-3 py-2">{card.example}</p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
         <div className="mt-3 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
           💡 바둑에서 이세돌을 이긴 알파고, 퀴즈쇼에서 인간을 이긴 왓슨 — 모두 특정 영역에서만 뛰어난 <strong>약한 AI</strong>입니다.

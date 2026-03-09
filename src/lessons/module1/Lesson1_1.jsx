@@ -1,5 +1,35 @@
+import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
+
+function YouTubeEmbed({ videoId }) {
+  const [playing, setPlaying] = useState(false)
+  return playing ? (
+    <iframe
+      src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+      className="w-full aspect-video rounded-2xl shadow"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen
+    />
+  ) : (
+    <div
+      className="relative cursor-pointer group"
+      onClick={() => setPlaying(true)}
+    >
+      <img
+        src={`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`}
+        alt="유튜브 영상 썸네일"
+        className="w-full rounded-2xl shadow object-cover"
+        onError={e => { e.target.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` }}
+      />
+      <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/20 group-hover:bg-black/30 transition-all">
+        <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center shadow-xl">
+          <span className="text-white text-2xl ml-1">▶</span>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default function Lesson1_1() {
   return (
@@ -23,13 +53,9 @@ export default function Lesson1_1() {
 
       {/* AI 뉴스 도입 */}
       <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-3">🎵 전설의 가수들이 AI로 부활하다</h2>
-        <img
-          src="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=700&h=300&fit=crop"
-          alt="음악 공연 무대"
-          className="w-full rounded-2xl object-cover mb-4 shadow"
-        />
-        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-sm text-slate-700 leading-relaxed">
+        <h2 className="text-lg font-bold text-slate-800 mb-3">🎵 전설의 가수들이 AI로 노래한다</h2>
+        <YouTubeEmbed videoId="Jm0s0CEEd3Q" />
+        <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-sm text-slate-700 leading-relaxed mt-4">
           <p>케이블 TV의 한 음악 방송에서 세상을 떠난 가수들의 목소리를 AI로 복원하는 특집 방송이 시도되었습니다. AI 음성 복원 기술로 만든 음성은 생전의 목소리라고 해도 무방할 만큼 완성도가 높았고, 관객들은 큰 감동을 받았습니다.</p>
           <p className="mt-2 text-slate-500">→ 이런 기술이 가능한 이유가 무엇일까요? 이 레슨에서 함께 알아봅시다.</p>
         </div>
@@ -63,12 +89,30 @@ export default function Lesson1_1() {
         </div>
       </section>
 
+      {/* 중간 실습 */}
+      <section>
+        <h2 className="text-lg font-bold text-slate-800 mb-3">🎯 실습해보기</h2>
+        <ChoiceQuiz
+          question="다음 중 인공지능(AI) 기술이 사용된 것은 어느 것일까요?"
+          options={[
+            '자동으로 열리는 마트 자동문',
+            '버튼을 누르면 작동하는 전자레인지',
+            '내가 자주 보는 영상을 알아서 추천해 주는 유튜브',
+            '시간이 되면 울리는 자명종 알람',
+            '형광등 스위치를 올리면 켜지는 조명',
+          ]}
+          answer={2}
+          explanation="유튜브의 추천 알고리즘은 내가 본 영상 기록을 분석해 취향을 스스로 파악하고 영상을 추천합니다. 나머지는 정해진 규칙대로만 동작하는 일반 기계입니다."
+          storageKey="ai-m1l1-mid-quiz"
+        />
+      </section>
+
       {/* AI 과학자들 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">🧑‍🔬 인공지능을 만든 과학자들</h2>
         <img
-          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=700&h=220&fit=crop"
-          alt="연구하는 과학자"
+          src="https://i.namu.wiki/i/rQBSP7X2mZlcoIXAB9dUT3sklm5-EkbarP0XwuiqpOkWyiSIUPsxDYl2_jOp4iSYILPSlc3GhMjrVQ9AJntsUV7Ls25lz0sBQBh7dlm0A5qZI8DD86AXz0Ajus6WdNBUjMaa3WFTER3xM9qYQsBe3Q.webp"
+          alt="인공지능을 만든 과학자들"
           className="w-full rounded-2xl object-cover mb-4 shadow"
         />
         <div className="space-y-3">
@@ -125,7 +169,7 @@ export default function Lesson1_1() {
               <div key={item.title} className={`rounded-2xl border p-4 ${bg[item.color]}`}>
                 <p className={`font-bold text-sm mb-1 ${title[item.color]}`}>{item.title}</p>
                 <p className="text-sm text-slate-700 mb-2">{item.desc}</p>
-                <p className="text-xs text-slate-500 bg-white bg-opacity-70 rounded-xl px-3 py-1.5">{item.example}</p>
+                <p className="text-xs text-slate-500 bg-white/70 rounded-xl px-3 py-1.5">{item.example}</p>
               </div>
             )
           })}
@@ -136,9 +180,9 @@ export default function Lesson1_1() {
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">🧪 튜링 테스트 이해하기</h2>
         <img
-          src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=700&h=250&fit=crop"
-          alt="대화 실험"
-          className="w-full rounded-2xl object-cover mb-4 shadow"
+          src="http://terms.tta.or.kr/upload/image/terms2021/43_turingtest.png"
+          alt="튜링 테스트 설명 이미지"
+          className="w-full rounded-2xl object-contain mb-4 shadow bg-white p-2"
         />
         <FlipReveal
           question="튜링 테스트를 '통과'한다는 것은 무슨 의미일까요?"

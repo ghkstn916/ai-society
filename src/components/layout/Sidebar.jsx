@@ -12,7 +12,7 @@ export default function Sidebar({ onClose }) {
   const isComplete = useProgressStore(s => s.isComplete)
 
   return (
-    <aside className="w-72 min-h-screen bg-white border-r border-slate-200 flex flex-col">
+    <aside className="w-72 h-screen bg-white border-r border-slate-200 flex flex-col">
       <div className="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
         <Link to="/" className="font-bold text-slate-800 hover:text-blue-600 transition-colors text-sm">
           ← 홈으로
