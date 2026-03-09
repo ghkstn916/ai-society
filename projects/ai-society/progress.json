@@ -1,0 +1,16 @@
+{
+  "step0_completed": true,
+  "step1_completed": true,
+  "step2_completed": true,
+  "step3_confirmed": true,
+  "step4_completed": true,
+  "step5_completed": true,
+  "chapters": {
+    "chapter01": { "status": "completed", "title": "인공지능이란 무엇인가?" },
+    "chapter02": { "status": "completed", "title": "인공지능과 인간 지능의 차이" },
+    "chapter03": { "status": "completed", "title": "AI 소프트웨어의 이해" },
+    "chapter04": { "status": "completed", "title": "인공지능과 개인 삶의 변화" },
+    "chapter05": { "status": "completed", "title": "인공지능과 사회 각 분야의 변화" },
+    "chapter06": { "status": "completed", "title": "인공지능과 직업의 변화" }
+  }
+}

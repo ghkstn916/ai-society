@@ -1,0 +1,68 @@
+{
+  "projectName": "ai-society",
+  "title": "인공지능과 사회",
+  "modules": [
+    {
+      "moduleId": "module1",
+      "title": "인공지능의 개념과 특성",
+      "description": "인공지능이 무엇인지, 인간 지능과 어떻게 다른지, AI 소프트웨어의 원리를 배웁니다.",
+      "chapters": [
+        {
+          "chapterId": "chapter01",
+          "lessonId": "lesson1_1",
+          "title": "인공지능이란 무엇인가?",
+          "objectives": ["인공지능의 개념과 정의를 설명할 수 있다", "인공지능의 4가지 특성을 구분할 수 있다", "튜링 테스트가 무엇인지 설명할 수 있다"],
+          "duration": "30분",
+          "keyTerms": ["인공지능", "튜링 테스트", "인간 같은 행동", "합리적 행동"]
+        },
+        {
+          "chapterId": "chapter02",
+          "lessonId": "lesson1_2",
+          "title": "인공지능과 인간 지능의 차이",
+          "objectives": ["인공지능과 인간 지능의 차이점을 설명할 수 있다", "모라벡의 역설과 강한/약한 AI 개념을 이해한다", "중국어 방 사고 실험을 통해 AI 이해의 한계를 안다"],
+          "duration": "35분",
+          "keyTerms": ["알고리즘 지능", "모라벡의 역설", "강한 AI", "약한 AI", "중국어 방", "감성 컴퓨팅"]
+        },
+        {
+          "chapterId": "chapter03",
+          "lessonId": "lesson1_3",
+          "title": "AI 소프트웨어의 이해",
+          "objectives": ["일반 소프트웨어와 AI 소프트웨어의 차이를 설명할 수 있다", "지식 기반과 학습 기반 AI 소프트웨어를 구분할 수 있다"],
+          "duration": "30분",
+          "keyTerms": ["일반 소프트웨어", "AI 소프트웨어", "지식 베이스", "학습 알고리즘"]
+        }
+      ]
+    },
+    {
+      "moduleId": "module2",
+      "title": "인공지능과 사회 변화",
+      "description": "인공지능이 개인의 삶, 사회 각 분야, 직업에 어떤 변화를 가져오는지 탐색합니다.",
+      "chapters": [
+        {
+          "chapterId": "chapter04",
+          "lessonId": "lesson2_1",
+          "title": "인공지능과 개인 삶의 변화",
+          "objectives": ["AI가 개인의 일상에 가져온 구체적 변화를 설명할 수 있다", "개인 맞춤형 서비스의 원리를 이해한다", "AI 교육 서비스의 가능성과 한계를 생각할 수 있다"],
+          "duration": "30분",
+          "keyTerms": ["개인 맞춤형 서비스", "필터 버블", "IoT", "AI 교육"]
+        },
+        {
+          "chapterId": "chapter05",
+          "lessonId": "lesson2_2",
+          "title": "인공지능과 사회 각 분야의 변화",
+          "objectives": ["5개 이상의 산업 분야에서 AI 활용 사례를 설명할 수 있다", "각 분야에서 AI로 인해 새롭게 필요한 직업을 파악할 수 있다"],
+          "duration": "35분",
+          "keyTerms": ["인지 자동화", "자율 주행", "AI 의료 진단", "인공지능 국가전략"]
+        },
+        {
+          "chapterId": "chapter06",
+          "lessonId": "lesson2_3",
+          "title": "인공지능과 직업의 변화",
+          "objectives": ["자동화 대체율이 높은/낮은 직업의 특징을 설명할 수 있다", "인공지능 유창성의 개념을 이해한다"],
+          "duration": "30분",
+          "keyTerms": ["자동화 대체율", "인공지능 유창성", "4차 산업 혁명"]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "projectName": "ai-society",
+  "title": "인공지능과 사회",
+  "subtitle": "고등학교 3학년 인공지능 기초",
+  "version": "1.0.0",
+  "createdAt": "2026-03-09",
+  "updatedAt": "2026-03-09",
+  "author": "EduFlow AI",
+  "target": "고등학교 3학년",
+  "subject": "인공지능 기초",
+  "unit": "Ⅰ-1 인공지능과 사회",
+  "totalModules": 2,
+  "totalLessons": 6,
+  "totalQuizzes": 2,
+  "estimatedTime": "약 3시간",
+  "template": "interactive-lesson-site",
+  "deployTarget": "github-pages",
+  "techStack": {
+    "frontend": ["React 19", "Vite 8", "Tailwind CSS v4", "React Router v7", "Zustand"]
+  }
+}

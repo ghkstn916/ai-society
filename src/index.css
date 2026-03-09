@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', system-ui, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  min-height: 100vh;
+  display: block;
+}
+
+.drag-item {
+  cursor: grab;
+  user-select: none;
+}
+.drag-item:active {
+  cursor: grabbing;
+}
+.drop-zone {
+  min-height: 80px;
+  transition: background 0.2s;
+}
+.drop-zone.drag-over {
+  background: #e0f2fe;
+  border-color: #0284c7;
+}
