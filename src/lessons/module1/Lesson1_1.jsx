@@ -37,6 +37,69 @@ function ExpandableImage({ thumb, full, alt }) {
   )
 }
 
+const aiExamples = [
+  {
+    icon: '🔊',
+    label: '인공지능 스피커',
+    reason: '왜 인공지능인가?',
+    desc: '단순히 버튼을 눌러 소리를 내는 것이 아닙니다. "오늘 날씨 어때?"처럼 사람의 말을 듣고, 목소리에서 단어와 의미를 스스로 분석해 상황에 맞는 대답을 합니다. 목소리 인식·자연어 처리·대화 맥락 파악까지, 인간의 언어 능력을 기계로 구현한 것입니다.',
+  },
+  {
+    icon: '🚗',
+    label: '자율 주행 자동차',
+    reason: '왜 인공지능인가?',
+    desc: '카메라·레이더·라이다 센서로 주변 환경을 실시간으로 인식하고, 신호등·보행자·다른 차량을 스스로 판단해 속도와 방향을 결정합니다. 정해진 규칙만 따르는 것이 아니라, 예상치 못한 상황에서도 데이터를 분석해 최선의 행동을 선택합니다.',
+  },
+  {
+    icon: '📱',
+    label: '얼굴 인식 잠금',
+    reason: '왜 인공지능인가?',
+    desc: '수백만 장의 얼굴 사진 데이터를 학습해 눈·코·입의 위치와 비율 같은 특징을 스스로 파악합니다. 안경을 쓰거나 머리 스타일이 바뀌어도 "같은 사람"임을 인식할 수 있는 이유가 바로 이 학습 능력 덕분입니다.',
+  },
+  {
+    icon: '🛒',
+    label: '쇼핑 추천 알고리즘',
+    reason: '왜 인공지능인가?',
+    desc: '내가 검색하고 구매한 기록, 비슷한 취향을 가진 다른 사람들의 구매 패턴을 분석해 "지금 이 사람에게 가장 필요한 상품"을 스스로 예측합니다. 사람이 일일이 규칙을 만들지 않아도 데이터에서 패턴을 찾아내는 것이 AI의 핵심입니다.',
+  },
+]
+
+function AIExampleCards() {
+  const [openId, setOpenId] = useState(null)
+  return (
+    <div className="grid grid-cols-2 gap-3 mt-2">
+      {aiExamples.map(item => {
+        const isOpen = openId === item.label
+        return (
+          <div
+            key={item.label}
+            onClick={() => setOpenId(isOpen ? null : item.label)}
+            className={`rounded-xl border cursor-pointer transition-all shadow-sm ${
+              isOpen
+                ? 'bg-blue-50 border-blue-300 col-span-2'
+                : 'bg-white border-slate-200 hover:border-blue-200 hover:bg-blue-50/40'
+            }`}
+          >
+            <div className="flex items-center justify-between p-3">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{item.icon}</span>
+                <p className="text-sm font-semibold text-slate-800">{item.label}</p>
+              </div>
+              <span className={`text-slate-400 text-sm transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>▾</span>
+            </div>
+            {isOpen && (
+              <div className="px-4 pb-4 pt-1 border-t border-blue-200">
+                <p className="text-xs font-bold text-blue-600 mb-1">{item.reason}</p>
+                <p className="text-sm text-slate-700 leading-relaxed">{item.desc}</p>
+              </div>
+            )}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 function YouTubeEmbed({ videoId }) {
   const [playing, setPlaying] = useState(false)
   return playing ? (
@@ -113,20 +176,8 @@ export default function Lesson1_1() {
           full="/ai-society/image/16_2.png"
           alt="인공지능 개념 설명 이미지"
         />
-        <div className="grid grid-cols-2 gap-3 mt-4">
-          {[
-            { icon: '🔊', label: '인공지능 스피커', desc: '말을 알아듣고 대답' },
-            { icon: '🚗', label: '자율 주행 자동차', desc: '스스로 길을 찾아 주행' },
-            { icon: '📱', label: '얼굴 인식 잠금', desc: '내 얼굴로 스마트폰 열기' },
-            { icon: '🛒', label: '쇼핑 추천 알고리즘', desc: '취향에 맞는 상품 추천' },
-          ].map(item => (
-            <div key={item.label} className="rounded-xl bg-white border border-slate-200 p-3 shadow-sm">
-              <span className="text-2xl">{item.icon}</span>
-              <p className="text-sm font-semibold text-slate-800 mt-1">{item.label}</p>
-              <p className="text-xs text-slate-500">{item.desc}</p>
-            </div>
-          ))}
-        </div>
+        <p className="text-sm text-slate-500 mt-4 mb-2">아래 카드를 클릭하면 왜 인공지능인지 확인할 수 있어요.</p>
+        <AIExampleCards />
       </section>
 
       {/* 중간 실습 */}
