@@ -1,6 +1,18 @@
 import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
+import SortCards from '../../components/interactive/SortCards.jsx'
+
+const phoneItems = [
+  { id: 'p1', label: '얼굴 인식 잠금 해제', correct: 'B' },
+  { id: 'p2', label: '계산기 앱', correct: 'A' },
+  { id: 'p3', label: 'AI 카메라 자동 설정', correct: 'B' },
+  { id: 'p4', label: '메모장 앱', correct: 'A' },
+  { id: 'p5', label: '음악 인식 (Shazam)', correct: 'B' },
+  { id: 'p6', label: '알람 앱', correct: 'A' },
+  { id: 'p7', label: '실시간 번역 카메라', correct: 'B' },
+  { id: 'p8', label: '전화 통화 앱', correct: 'A' },
+]
 
 const timeline = [
   { year: '1956', title: '다트머스 회의', desc: '학자들이 모여 지능을 가진 기계를 "인공지능"이라 부르기로 하고 연구 방향을 논의했다. 이후 AI 연구의 본격적인 출발점이 되었다.' },
@@ -132,6 +144,13 @@ export default function Lesson2_1() {
         </ul>
       </section>
 
+      {/* 도입 FlipReveal */}
+      <FlipReveal
+        question="오늘 아침 일어나서 지금까지 AI와 관련된 것을 몇 가지나 사용했을까요? 먼저 세어본 뒤 확인해보세요."
+        answer="생각보다 많습니다! 스마트폰 잠금 해제(얼굴 인식), 음악 앱 추천, 지도 앱의 경로 안내, 뉴스·SNS 피드 추천, 날씨 예보까지 — 하루를 시작하는 순간부터 AI가 함께합니다."
+        storageKey="ai-m2l1-flip-intro"
+      />
+
       {/* AI 기술 발전 역사 타임라인 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-1">1. 인공지능 기술은 어떻게 발전했을까?</h2>
@@ -215,6 +234,21 @@ export default function Lesson2_1() {
               </div>
             )
           })}
+        </div>
+      </section>
+
+      {/* 스마트폰 분류 실습 */}
+      <section>
+        <h2 className="text-lg font-bold text-slate-800 mb-2">🧪 활동: AI 기능 vs 일반 기능 구분하기</h2>
+        <p className="text-sm text-slate-500 mb-3">스마트폰 기능들을 AI 기반 기능과 일반 소프트웨어 기능으로 나눠보세요.</p>
+        <SortCards
+          items={phoneItems}
+          groupA="일반 소프트웨어"
+          groupB="AI 기반 기능"
+          storageKey="ai-m2l1-sort-phone"
+        />
+        <div className="mt-3 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
+          💡 힌트: 데이터를 학습해 스스로 판단·적응하는 기능이 AI입니다. 미리 정해진 절차만 따르면 일반 소프트웨어입니다.
         </div>
       </section>
 

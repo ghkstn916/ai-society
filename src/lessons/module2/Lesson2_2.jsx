@@ -1,6 +1,16 @@
 import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
+import SortCards from '../../components/interactive/SortCards.jsx'
+
+const aiRoleItems = [
+  { id: 'r1', label: 'AI가 수천 개의 판례를 검색해 변호사에게 제공한다', correct: 'A' },
+  { id: 'r2', label: 'AI가 공장 조립 라인 전체를 완전 자동화한다', correct: 'B' },
+  { id: 'r3', label: 'AI가 의사의 진단을 보조하는 분석 시스템을 운영한다', correct: 'A' },
+  { id: 'r4', label: 'AI가 사람 없이 주식을 자동으로 사고판다', correct: 'B' },
+  { id: 'r5', label: 'AI가 학생별 오답 데이터를 분석해 교사에게 알려준다', correct: 'A' },
+  { id: 'r6', label: 'AI 로봇이 창고에서 상품을 분류·포장·배송한다', correct: 'B' },
+]
 
 const mainSectors = [
   {
@@ -129,6 +139,13 @@ export default function Lesson2_2() {
         </ul>
       </section>
 
+      {/* 도입 FlipReveal */}
+      <FlipReveal
+        question="AI가 가장 먼저 큰 변화를 가져올 분야는 어디라고 생각하나요? 이유도 함께 생각해보세요."
+        answer="전문가들은 반복 업무 비중이 높고 대량의 데이터가 쌓이는 분야(금융·법률·의료·물류)에서 변화가 빠르다고 봅니다. 하지만 예술·교육·복지처럼 인간의 감성과 판단이 핵심인 분야는 AI와 협업하는 방식으로 변화할 것입니다."
+        storageKey="ai-m2l2-flip-intro"
+      />
+
       {/* 거시적 경제 효과 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">1. AI가 세계 경제에 미치는 영향</h2>
@@ -174,6 +191,21 @@ export default function Lesson2_2() {
         </div>
       </section>
 
+      {/* 핵심 산업 분야 퀴즈 */}
+      <ChoiceQuiz
+        question="다음 중 AI가 건설 분야에서 주로 활용되는 방식으로 옳은 것은?"
+        options={[
+          '공사 설계 도면을 전부 AI가 혼자 그린다',
+          '드론 촬영 데이터를 AI가 분석해 자율 주행 장비를 24시간 가동한다',
+          'AI가 건설 현장의 모든 법적 계약을 처리한다',
+          'AI 로봇이 벽돌을 손으로 하나씩 쌓는다',
+          '건설 분야에서는 아직 AI를 활용하지 않는다',
+        ]}
+        answer={1}
+        explanation="드론으로 현장을 촬영하고 AI가 데이터를 분석해 자율 주행 장비를 가동합니다. 이를 통해 건설 시간을 단축하고 안전성을 높입니다."
+        storageKey="ai-m2l2-quiz-industry"
+      />
+
       {/* 추가 사회 영역 — 아코디언 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-2">3. 더 넓은 사회 영역에서의 AI</h2>
@@ -203,6 +235,21 @@ export default function Lesson2_2() {
               </div>
             )
           })}
+        </div>
+      </section>
+
+      {/* AI 역할 분류 실습 */}
+      <section>
+        <h2 className="text-lg font-bold text-slate-800 mb-2">🧪 활동: AI 보조 vs AI 대체 구분하기</h2>
+        <p className="text-sm text-slate-500 mb-3">다음 AI 활용 사례가 인간을 <strong>보조</strong>하는 경우인지, 인간을 <strong>대체</strong>하는 경우인지 구분해보세요.</p>
+        <SortCards
+          items={aiRoleItems}
+          groupA="인간 보조 (AI가 사람을 도움)"
+          groupB="인간 대체 (AI가 사람 대신 처리)"
+          storageKey="ai-m2l2-sort-role"
+        />
+        <div className="mt-3 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
+          💡 두 경우 모두 사회를 변화시키지만, 방식이 다릅니다. AI가 사람을 보조할 때 인간은 더 창의적인 업무에 집중할 수 있습니다.
         </div>
       </section>
 

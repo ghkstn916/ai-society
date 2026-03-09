@@ -118,6 +118,13 @@ export default function Lesson2_3() {
         </ul>
       </section>
 
+      {/* 도입 FlipReveal */}
+      <FlipReveal
+        question="여러분이 갖고 싶은 직업, 10년 후에도 살아남을까요? AI로 대체될 것 같나요? 먼저 생각해보세요."
+        answer="정답은 직업의 '종류'보다 '역할'에 달려 있습니다. 예를 들어 의사가 'AI 진단 결과를 읽고 처방을 내리는 역할'을 한다면 오히려 AI와 협업해 더 잘할 수 있습니다. 반면 단순 자료 입력 등 반복 작업 위주라면 위험할 수 있습니다. 중요한 건 어떤 역할을 하느냐입니다."
+        storageKey="ai-m2l3-flip-intro"
+      />
+
       {/* 산업 혁명과 직업 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">1. 산업 혁명과 직업의 역사</h2>
@@ -181,6 +188,21 @@ export default function Lesson2_3() {
           💡 특히 ③번 방향은 여러분 모두에게 해당됩니다. 미래의 직업에서 AI를 도구로 활용할 줄 아는 능력이 점점 중요해지고 있습니다.
         </div>
       </section>
+
+      {/* 직업 방향 시나리오 퀴즈 */}
+      <ChoiceQuiz
+        question="소아과 의사가 AI 진단 보조 시스템을 사용해 환자 차트를 빠르게 분석한다면, AI 시대 세 가지 방향 중 어디에 해당할까요?"
+        options={[
+          '① AI를 연구·개발한다',
+          '② AI를 적용해 새로운 제품·서비스를 만든다',
+          '③ 자신의 직업에 AI를 활용한다',
+          '세 가지 모두에 해당한다',
+          '의사는 AI와 관련이 없다',
+        ]}
+        answer={2}
+        explanation="기존 직업(의사)을 유지하면서 AI 도구를 업무에 활용하는 것은 ③번 방향입니다. 가장 많은 사람에게 해당되는 변화로, 여러분도 미래에 어떤 직업을 갖든 이 방향을 준비해야 합니다."
+        storageKey="ai-m2l3-quiz-direction"
+      />
 
       {/* 자동화 대체율 분류 활동 */}
       <section>
