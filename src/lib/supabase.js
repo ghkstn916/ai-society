@@ -63,3 +63,28 @@ export async function fetchQuizResponses() {
   if (error) console.error(error)
   return data || []
 }
+
+// ── 실습 활동 결과 저장/조회 ──────────────────────────────────────
+function getLessonIdFromKey(activityId) {
+  const m = activityId?.match(/ai-m(\d+)l(\d+)/)
+  return m ? `lesson${m[1]}_${m[2]}` : 'unknown'
+}
+
+export async function submitActivityResult(studentId, studentName, activityId, score, maxScore) {
+  if (!supabase || !activityId) return
+  const lessonId = getLessonIdFromKey(activityId)
+  await supabase.from('activity_results').upsert(
+    { student_id: studentId, student_name: studentName, lesson_id: lessonId, activity_id: activityId, score, max_score: maxScore },
+    { onConflict: 'student_id,lesson_id,activity_id' }
+  )
+}
+
+export async function fetchActivityResults() {
+  if (!supabase) return []
+  const { data, error } = await supabase
+    .from('activity_results')
+    .select('*')
+    .order('submitted_at', { ascending: true })
+  if (error) console.error(error)
+  return data || []
+}

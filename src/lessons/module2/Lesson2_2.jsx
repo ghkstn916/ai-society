@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
+import { getStudentInfo, submitActivityResult } from '../../lib/supabase.js'
 
 const aiRoleCards = [
   { label: 'AI가 X선 사진을 분석해 의심 병변 위치를 의사에게 표시해준다', group: 'A' },
@@ -317,7 +318,12 @@ export default function Lesson2_2() {
           {/* 제출 / 결과 */}
           {!aiChecked ? (
             <button
-              onClick={() => setAiChecked(true)}
+              onClick={() => {
+                const score = aiRoleCards.filter((c, i) => aiAnswers[i] === c.group).length
+                setAiChecked(true)
+                const info = getStudentInfo()
+                if (info) submitActivityResult(info.studentId, info.studentName, 'ai-m2l2-classify-airole', score, aiRoleCards.length)
+              }}
               disabled={!allAnswered}
               className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
                 allAnswered

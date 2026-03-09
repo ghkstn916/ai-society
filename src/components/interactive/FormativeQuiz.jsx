@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import usePersistentState from '../../hooks/usePersistentState.js'
-import { getStudentInfo, submitQuizResponses } from '../../lib/supabase.js'
+import { getStudentInfo, saveStudentInfo, submitQuizResponses } from '../../lib/supabase.js'
+import StudentModal from '../StudentModal.jsx'
 
 export default function FormativeQuiz({ questions, storageKey = null, quizId = null }) {
   const [answers, setAnswers] = usePersistentState(storageKey ? storageKey + '-ans' : null, {})
   const [submitted, setSubmitted] = usePersistentState(storageKey ? storageKey + '-sub' : null, false)
+  const [showInfoModal, setShowInfoModal] = useState(false)
 
   const mcQuestions = questions.filter(q => q.type !== 'text')
 
@@ -32,6 +35,17 @@ export default function FormativeQuiz({ questions, storageKey = null, quizId = n
       ? typeof answers[i] === 'string' && answers[i].trim().length > 0
       : answers[i] !== undefined
   ).length
+
+  function finalizeSubmit(info) {
+    setSubmitted(true)
+    if (quizId && info) {
+      const textAnswers = questions
+        .map((q, i) => ({ q, i }))
+        .filter(({ q }) => q.type === 'text')
+        .map(({ q, i }) => ({ questionIdx: i, question: q.question, answer: answers[i] || '' }))
+      if (textAnswers.length > 0) submitQuizResponses(info.studentId, info.studentName, quizId, textAnswers)
+    }
+  }
 
   function optStyle(qIdx, optIdx) {
     if (!submitted) {
@@ -83,20 +97,20 @@ export default function FormativeQuiz({ questions, storageKey = null, quizId = n
         </div>
       ))}
 
+      {showInfoModal && (
+        <StudentModal onSubmit={(studentId, studentName) => {
+          saveStudentInfo(studentId, studentName)
+          setShowInfoModal(false)
+          finalizeSubmit({ studentId, studentName })
+        }} />
+      )}
+
       {!submitted ? (
         <button
           onClick={() => {
-            setSubmitted(true)
-            if (quizId) {
-              const textAnswers = questions
-                .map((q, i) => ({ q, i }))
-                .filter(({ q }) => q.type === 'text')
-                .map(({ q, i }) => ({ questionIdx: i, question: q.question, answer: answers[i] || '' }))
-              if (textAnswers.length > 0) {
-                const info = getStudentInfo()
-                if (info) submitQuizResponses(info.studentId, info.studentName, quizId, textAnswers)
-              }
-            }
+            const info = getStudentInfo()
+            if (!info) { setShowInfoModal(true); return }
+            finalizeSubmit(info)
           }}
           disabled={!allAnswered}
           className="w-full py-3 bg-blue-600 text-white rounded-2xl font-semibold text-sm disabled:opacity-40 hover:bg-blue-700 transition-colors"

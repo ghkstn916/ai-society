@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import usePersistentState from '../../hooks/usePersistentState.js'
+import { getStudentInfo, submitActivityResult } from '../../lib/supabase.js'
 
 export default function SortCards({ items, groupA, groupB, storageKey = null }) {
   const [submitted, setSubmitted] = usePersistentState(storageKey ? storageKey + '-sub' : null, false)
@@ -69,7 +70,14 @@ export default function SortCards({ items, groupA, groupB, storageKey = null }) 
       </div>
       {!submitted ? (
         <button
-          onClick={() => setSubmitted(true)}
+          onClick={() => {
+            setSubmitted(true)
+            if (storageKey) {
+              const score = items.filter(item => placements[item.id] === item.correct).length
+              const info = getStudentInfo()
+              if (info) submitActivityResult(info.studentId, info.studentName, storageKey, score, items.length)
+            }
+          }}
           disabled={Object.keys(placements).length < items.length}
           className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium disabled:opacity-40 hover:bg-blue-700 transition-colors"
         >

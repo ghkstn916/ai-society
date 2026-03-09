@@ -1,10 +1,36 @@
 import { useState, useEffect } from 'react'
-import { fetchAllProgress, fetchQuizResponses } from '../lib/supabase.js'
+import { fetchAllProgress, fetchQuizResponses, fetchActivityResults } from '../lib/supabase.js'
 import { allLessons } from '../data/lessonRegistry.js'
 
 const ADMIN_PASSWORD = (import.meta.env.VITE_ADMIN_PASSWORD || 'admin').trim()
 
 const QUIZ_LABELS = { quiz1: '모듈1 형성평가', quiz2: '모듈2 형성평가' }
+
+const ACTIVITY_LABELS = {
+  'ai-m1l1-mid-quiz':          '[1-1] 중간 퀴즈',
+  'ai-m1l1-quiz-0':            '[1-1] 확인 퀴즈 1',
+  'ai-m1l1-quiz-1':            '[1-1] 확인 퀴즈 2',
+  'ai-m1l1-quiz-2':            '[1-1] 확인 퀴즈 3',
+  'ai-m1l2-sort-0':            '[1-2] AI vs 인간 분류',
+  'ai-m1l2-quiz-0':            '[1-2] 확인 퀴즈 1',
+  'ai-m1l2-quiz-1':            '[1-2] 확인 퀴즈 2',
+  'ai-m1l3-sort-0':            '[1-3] 소프트웨어 분류',
+  'ai-m1l3-quiz-0':            '[1-3] 확인 퀴즈 1',
+  'ai-m1l3-quiz-1':            '[1-3] 확인 퀴즈 2',
+  'ai-m2l1-sort-phone':        '[2-1] 스마트폰 기능 분류',
+  'ai-m2l1-quiz-0':            '[2-1] 확인 퀴즈 1',
+  'ai-m2l1-quiz-1':            '[2-1] 확인 퀴즈 2',
+  'ai-m2l1-quiz-2':            '[2-1] 확인 퀴즈 3',
+  'ai-m2l2-quiz-industry':     '[2-2] 건설 분야 퀴즈',
+  'ai-m2l2-classify-airole':   '[2-2] AI 보조/대체 분류',
+  'ai-m2l2-quiz-0':            '[2-2] 확인 퀴즈 1',
+  'ai-m2l2-quiz-1':            '[2-2] 확인 퀴즈 2',
+  'ai-m2l3-quiz-direction':    '[2-3] AI 시대 방향 퀴즈',
+  'ai-m2l3-sort-0':            '[2-3] 직업 자동화 분류',
+  'ai-m2l3-quiz-0':            '[2-3] 확인 퀴즈 1',
+  'ai-m2l3-quiz-1':            '[2-3] 확인 퀴즈 2',
+  'ai-m2l3-quiz-2':            '[2-3] 확인 퀴즈 3',
+}
 
 function downloadCSV(rows, lessons) {
   const headers = ['학번', '이름', '완료 수', ...lessons.map((l) => l.title)]
@@ -16,6 +42,20 @@ function downloadCSV(rows, lessons) {
   ])
   const csv = [headers, ...lines].map((row) => row.join(',')).join('\n')
   triggerDownload('\uFEFF' + csv, `진행상황_${dateStr()}.csv`)
+}
+
+function downloadActivitiesCSV(activities) {
+  const headers = ['학번', '이름', '활동', '점수', '만점', '정오']
+  const lines = activities.map((r) => [
+    r.student_id,
+    r.student_name,
+    ACTIVITY_LABELS[r.activity_id] || r.activity_id,
+    r.score,
+    r.max_score,
+    r.score === r.max_score ? 'O' : 'X',
+  ])
+  const csv = [headers, ...lines].map((row) => row.join(',')).join('\n')
+  triggerDownload('\uFEFF' + csv, `실습결과_${dateStr()}.csv`)
 }
 
 function downloadResponsesCSV(responses) {
@@ -65,6 +105,7 @@ export default function Admin() {
   const [tab, setTab] = useState('progress')
   const [rows, setRows] = useState([])
   const [responses, setResponses] = useState([])
+  const [activities, setActivities] = useState([])
   const [loading, setLoading] = useState(false)
   const [lastFetched, setLastFetched] = useState(null)
 
@@ -81,9 +122,12 @@ export default function Admin() {
 
   const loadData = async () => {
     setLoading(true)
-    const [rawProgress, rawResponses] = await Promise.all([fetchAllProgress(), fetchQuizResponses()])
+    const [rawProgress, rawResponses, rawActivities] = await Promise.all([
+      fetchAllProgress(), fetchQuizResponses(), fetchActivityResults()
+    ])
     setRows(processProgress(rawProgress))
     setResponses(rawResponses)
+    setActivities(rawActivities)
     setLastFetched(new Date())
     setLoading(false)
   }
@@ -140,20 +184,21 @@ export default function Admin() {
             >
               {loading ? '불러오는 중...' : '새로고침'}
             </button>
-            {tab === 'progress' ? (
-              <button
-                onClick={() => downloadCSV(rows, lessons)}
-                disabled={rows.length === 0}
-                className="px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 transition-colors disabled:opacity-50"
-              >
+            {tab === 'progress' && (
+              <button onClick={() => downloadCSV(rows, lessons)} disabled={rows.length === 0}
+                className="px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 transition-colors disabled:opacity-50">
                 CSV 다운로드
               </button>
-            ) : (
-              <button
-                onClick={() => downloadResponsesCSV(responses)}
-                disabled={responses.length === 0}
-                className="px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 transition-colors disabled:opacity-50"
-              >
+            )}
+            {tab === 'responses' && (
+              <button onClick={() => downloadResponsesCSV(responses)} disabled={responses.length === 0}
+                className="px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 transition-colors disabled:opacity-50">
+                CSV 다운로드
+              </button>
+            )}
+            {tab === 'activities' && (
+              <button onClick={() => downloadActivitiesCSV(activities)} disabled={activities.length === 0}
+                className="px-4 py-2 bg-green-600 text-white rounded-xl text-sm font-semibold hover:bg-green-700 transition-colors disabled:opacity-50">
                 CSV 다운로드
               </button>
             )}
@@ -161,7 +206,7 @@ export default function Admin() {
         </div>
 
         {/* 요약 카드 */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-5 gap-4 mb-6">
           <div className="bg-white rounded-2xl p-5 border border-slate-100">
             <p className="text-sm text-slate-500 mb-1">전체 학생</p>
             <p className="text-3xl font-bold text-slate-800">{rows.length}명</p>
@@ -179,6 +224,10 @@ export default function Admin() {
           <div className="bg-white rounded-2xl p-5 border border-slate-100">
             <p className="text-sm text-slate-500 mb-1">주관식 답변</p>
             <p className="text-3xl font-bold text-violet-600">{responses.length}건</p>
+          </div>
+          <div className="bg-white rounded-2xl p-5 border border-slate-100">
+            <p className="text-sm text-slate-500 mb-1">실습 활동 기록</p>
+            <p className="text-3xl font-bold text-orange-500">{activities.length}건</p>
           </div>
         </div>
 
@@ -199,6 +248,14 @@ export default function Admin() {
             }`}
           >
             주관식 답변
+          </button>
+          <button
+            onClick={() => setTab('activities')}
+            className={`px-5 py-2 rounded-xl text-sm font-semibold transition-colors ${
+              tab === 'activities' ? 'bg-orange-500 text-white' : 'text-slate-500 hover:text-slate-800'
+            }`}
+          >
+            실습 결과
           </button>
         </div>
 
@@ -307,6 +364,54 @@ export default function Admin() {
                   ))}
                 </div>
               ))
+            )}
+          </div>
+        )}
+        {/* 실습 결과 */}
+        {tab === 'activities' && (
+          <div className="bg-white rounded-2xl border border-slate-100 overflow-auto">
+            {loading ? (
+              <div className="flex items-center justify-center py-20 text-slate-400 text-sm">데이터를 불러오는 중...</div>
+            ) : activities.length === 0 ? (
+              <div className="flex items-center justify-center py-20 text-slate-400 text-sm">아직 실습 기록이 없습니다.</div>
+            ) : (
+              <table className="w-full text-sm min-w-max">
+                <thead>
+                  <tr className="border-b border-slate-100">
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 whitespace-nowrap">학번</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 whitespace-nowrap">이름</th>
+                    <th className="text-left px-5 py-3 text-xs font-semibold text-slate-500 whitespace-nowrap">활동</th>
+                    <th className="text-center px-4 py-3 text-xs font-semibold text-slate-500 whitespace-nowrap">점수</th>
+                    <th className="text-center px-4 py-3 text-xs font-semibold text-slate-500 whitespace-nowrap">정오</th>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-slate-500 whitespace-nowrap">제출시각</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {activities.map((r, i) => (
+                    <tr key={r.id} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
+                      <td className="px-5 py-3 font-mono text-slate-700 whitespace-nowrap">{r.student_id}</td>
+                      <td className="px-5 py-3 text-slate-800 font-medium whitespace-nowrap">{r.student_name}</td>
+                      <td className="px-5 py-3 text-slate-600 whitespace-nowrap">
+                        {ACTIVITY_LABELS[r.activity_id] || r.activity_id}
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-bold ${
+                          r.score === r.max_score ? 'bg-green-100 text-green-700' :
+                          r.score > 0 ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-600'
+                        }`}>
+                          {r.score}/{r.max_score}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3 text-center text-lg">
+                        {r.score === r.max_score ? '✓' : r.score > 0 ? '△' : '✗'}
+                      </td>
+                      <td className="px-4 py-3 text-xs text-slate-400 whitespace-nowrap">
+                        {r.submitted_at ? new Date(r.submitted_at).toLocaleString('ko-KR') : '-'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             )}
           </div>
         )}

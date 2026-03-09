@@ -1,4 +1,5 @@
 import usePersistentState from '../../hooks/usePersistentState.js'
+import { getStudentInfo, submitActivityResult } from '../../lib/supabase.js'
 
 export default function ChoiceQuiz({ question, options, answer, explanation, storageKey = null }) {
   const [selected, setSelected] = usePersistentState(storageKey, null)
@@ -7,6 +8,10 @@ export default function ChoiceQuiz({ question, options, answer, explanation, sto
   function handleSelect(idx) {
     if (revealed) return
     setSelected(idx)
+    if (storageKey) {
+      const info = getStudentInfo()
+      if (info) submitActivityResult(info.studentId, info.studentName, storageKey, idx === answer ? 1 : 0, 1)
+    }
   }
 
   function getStyle(idx) {
