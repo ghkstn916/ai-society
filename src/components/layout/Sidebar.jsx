@@ -7,6 +7,10 @@ const colorMap = {
   green: { dot: 'bg-green-500', ring: 'ring-green-200', text: 'text-green-700', badge: 'bg-green-100 text-green-700' },
 }
 
+function scrollTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
 export default function Sidebar({ onClose }) {
   const { lessonId } = useParams()
   const isComplete = useProgressStore(s => s.isComplete)
@@ -35,7 +39,7 @@ export default function Sidebar({ onClose }) {
                     <Link
                       key={lesson.id}
                       to={`/lesson/${lesson.moduleId}/${lesson.id}`}
-                      onClick={onClose}
+                      onClick={() => { onClose?.(); scrollTop() }}
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all ${
                         active
                           ? `ring-2 ${c.ring} bg-slate-50 font-semibold text-slate-800`

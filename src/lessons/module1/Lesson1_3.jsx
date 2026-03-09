@@ -35,7 +35,7 @@ export default function Lesson1_3() {
         <img
           src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=700&h=270&fit=crop"
           alt="소프트웨어 코드"
-          className="w-full max-h-48 rounded-2xl object-cover mb-4 shadow"
+          className="w-full rounded-2xl object-cover mb-4 shadow"
         />
         <p className="text-sm text-slate-600 leading-relaxed">
           예전에는 자동화된 기계도 인공지능이라고 불렀습니다. 냉장고에 온도 자동 조절 기능이 있다고 해서 AI가 들어있다고 과장 광고하는 경우도 있었죠. 하지만 <strong>모든 소프트웨어가 AI는 아닙니다.</strong>
@@ -90,7 +90,7 @@ export default function Lesson1_3() {
         <img
           src="/ai-society/image/17.jpg"
           alt="AI 소프트웨어 두 가지 유형"
-          className="w-full max-h-52 rounded-2xl object-contain mb-4 shadow bg-white p-1"
+          className="w-full rounded-2xl object-contain mb-4 shadow bg-white p-1"
         />
         <div className="space-y-4">
           <div className="rounded-2xl bg-purple-50 border border-purple-200 p-5">
@@ -99,7 +99,7 @@ export default function Lesson1_3() {
             <img
               src="/ai-society/image/18_1.png"
               alt="지식 기반 AI 소프트웨어 구조"
-              className="w-full max-h-40 rounded-xl object-contain mb-3 bg-white shadow-sm"
+              className="w-full rounded-xl object-contain mb-3 bg-white shadow-sm"
             />
             <p className="text-xs bg-white rounded-xl px-3 py-2 text-slate-500">
               💡 예: 브레드봇(AI 제빵 로봇) — 제빵사의 비법을 지식 베이스에 저장해두고, 기온·습도에 따라 온도와 시간을 조절해 빵을 굽습니다.
@@ -111,7 +111,7 @@ export default function Lesson1_3() {
             <img
               src="/ai-society/image/18_2.png"
               alt="학습 기반 AI 소프트웨어 구조"
-              className="w-full max-h-40 rounded-xl object-contain mb-3 bg-white shadow-sm"
+              className="w-full rounded-xl object-contain mb-3 bg-white shadow-sm"
             />
             <p className="text-xs bg-white rounded-xl px-3 py-2 text-slate-500">
               💡 예: 스마트폰 카메라 — 수백만 장의 사진 데이터를 학습해 인물·풍경을 자동 인식하고 최적 설정으로 촬영합니다.

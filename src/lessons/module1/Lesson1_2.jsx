@@ -57,7 +57,7 @@ export default function Lesson1_2() {
         <img
           src="https://cdn.freezinenews.com/news/photo/202411/2223_2819_4941.jpg"
           alt="인공지능 작동 원리"
-          className="w-full max-h-52 rounded-2xl object-cover mb-4 shadow"
+          className="w-full rounded-2xl object-cover mb-4 shadow"
         />
         <div className="rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-5 mb-4">
           <p className="text-xs font-semibold text-indigo-200 mb-1">핵심 개념</p>
@@ -143,7 +143,7 @@ export default function Lesson1_2() {
         <img
           src="/ai-society/image/16.jpg"
           alt="중국어 방 사고 실험"
-          className="w-full max-h-52 rounded-2xl object-cover mb-4 shadow"
+          className="w-full rounded-2xl object-cover mb-4 shadow"
         />
         <FlipReveal
           question="AI가 중국어 질문에 완벽하게 답한다면, AI가 중국어를 '이해'한다고 볼 수 있을까요?"

@@ -2,6 +2,41 @@ import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
 
+function ExpandableImage({ thumb, full, alt }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <>
+      <img
+        src={thumb}
+        alt={alt}
+        onClick={() => setOpen(true)}
+        className="w-full rounded-2xl shadow cursor-pointer hover:opacity-90 transition-opacity"
+      />
+      <p className="text-xs text-slate-400 text-center mt-1 mb-2">🔍 이미지를 클릭하면 크게 볼 수 있습니다</p>
+      {open && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          onClick={() => setOpen(false)}
+        >
+          <div className="relative max-w-4xl w-full" onClick={e => e.stopPropagation()}>
+            <img
+              src={full}
+              alt={alt}
+              className="w-full rounded-2xl shadow-2xl"
+            />
+            <button
+              onClick={() => setOpen(false)}
+              className="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/50 text-white flex items-center justify-center text-lg hover:bg-black/70"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
 function YouTubeEmbed({ videoId }) {
   const [playing, setPlaying] = useState(false)
   return playing ? (
@@ -73,6 +108,11 @@ export default function Lesson1_1() {
         <p className="text-sm text-slate-600 leading-relaxed">
           쉽게 말하면, <strong>인간의 지능 전부나 일부를 기계로 구현한 것</strong>입니다. 인공지능 스피커, 자율 주행 자동차, 얼굴 인식 잠금 해제가 모두 AI 기술의 예입니다.
         </p>
+        <ExpandableImage
+          thumb="/ai-society/image/16_1.png"
+          full="/ai-society/image/16_2.png"
+          alt="인공지능 개념 설명 이미지"
+        />
         <div className="grid grid-cols-2 gap-3 mt-4">
           {[
             { icon: '🔊', label: '인공지능 스피커', desc: '말을 알아듣고 대답' },
@@ -113,7 +153,7 @@ export default function Lesson1_1() {
         <img
           src="https://i.namu.wiki/i/rQBSP7X2mZlcoIXAB9dUT3sklm5-EkbarP0XwuiqpOkWyiSIUPsxDYl2_jOp4iSYILPSlc3GhMjrVQ9AJntsUV7Ls25lz0sBQBh7dlm0A5qZI8DD86AXz0Ajus6WdNBUjMaa3WFTER3xM9qYQsBe3Q.webp"
           alt="인공지능을 만든 과학자들"
-          className="w-full max-h-52 rounded-2xl object-cover mb-4 shadow"
+          className="w-full rounded-2xl object-cover mb-4 shadow"
         />
         <div className="space-y-3">
           {[
