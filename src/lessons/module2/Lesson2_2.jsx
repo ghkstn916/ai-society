@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
+import usePersistentState from '../../hooks/usePersistentState.js'
 
-const aiRoleItems = [
-  { id: 'r1', label: 'AI가 X선 사진을 분석해 의심 병변 위치를 의사에게 표시해준다', correct: 'A' },
-  { id: 'r2', label: 'AI 챗봇이 은행 상담원 없이 고객 질문에 24시간 자동 응답한다', correct: 'B' },
-  { id: 'r3', label: 'AI 프로그램이 기자 없이 주식 시황 뉴스를 자동으로 작성·배포한다', correct: 'B' },
-  { id: 'r4', label: 'AI 번역기가 외교 회의에서 통역관 옆에서 실시간 보조 번역을 한다', correct: 'A' },
-  { id: 'r5', label: 'AI 로봇이 물류 창고에서 사람 없이 24시간 상품을 분류·포장한다', correct: 'B' },
-  { id: 'r6', label: 'AI가 수천 건의 판례를 검색해 변호사에게 관련 자료를 제공한다', correct: 'A' },
+const aiRoleCards = [
+  { label: 'AI가 X선 사진을 분석해 의심 병변 위치를 의사에게 표시해준다', group: 'A' },
+  { label: 'AI 챗봇이 은행 상담원 없이 고객 질문에 24시간 자동 응답한다', group: 'B' },
+  { label: 'AI 프로그램이 기자 없이 주식 시황 뉴스를 자동으로 작성·배포한다', group: 'B' },
+  { label: 'AI 번역기가 외교 회의에서 통역관 옆에서 실시간 보조 번역을 한다', group: 'A' },
+  { label: 'AI 로봇이 물류 창고에서 사람 없이 24시간 상품을 분류·포장한다', group: 'B' },
+  { label: 'AI가 수천 건의 판례를 검색해 변호사에게 관련 자료를 제공한다', group: 'A' },
 ]
 
 const mainSectors = [
@@ -120,11 +121,16 @@ const colorMap = {
 
 export default function Lesson2_2() {
   const [openSector, setOpenSector] = useState(null)
-  const [aiSelections, setAiSelections] = useState({})
-  const [aiSubmitted, setAiSubmitted] = useState(false)
+  const [aiAnswers, setAiAnswers] = usePersistentState('ai-m2l2-sort-role', {})
+  const [aiChecked, setAiChecked] = usePersistentState('ai-m2l2-sort-role-c', false)
 
-  const allSelected = aiRoleItems.every(item => aiSelections[item.id])
-  const aiScore = aiRoleItems.filter(item => aiSelections[item.id] === item.correct).length
+  const allAnswered = Object.keys(aiAnswers).length === aiRoleCards.length
+  const aiScore = aiRoleCards.filter((c, i) => aiAnswers[i] === c.group).length
+
+  const selectRole = (idx, group) => {
+    if (aiChecked) return
+    setAiAnswers(prev => ({ ...prev, [idx]: group }))
+  }
 
   return (
     <article className="space-y-8">
@@ -249,101 +255,93 @@ export default function Lesson2_2() {
           <p className="font-bold text-amber-800 mb-1">💡 두 가지 역할의 차이</p>
           <div className="grid grid-cols-2 gap-3 mt-2">
             <div className="bg-white border border-amber-200 rounded-xl p-2 text-xs text-slate-700">
-              <p className="font-bold text-blue-700 mb-1">인간 보조형</p>
-              AI가 정보를 제공하거나 분석을 도와주고, 최종 판단은 사람이 내린다.
+              <p className="font-bold text-blue-700 mb-1">A 인간 보조형</p>
+              AI가 정보·분석을 제공하고, 최종 판단은 사람이 내린다.
             </div>
             <div className="bg-white border border-amber-200 rounded-xl p-2 text-xs text-slate-700">
-              <p className="font-bold text-red-600 mb-1">인간 대체형</p>
-              AI가 사람 없이 업무 전체를 직접 수행하고 결과물을 만들어낸다.
+              <p className="font-bold text-rose-600 mb-1">B 인간 대체형</p>
+              AI가 사람 없이 업무 전체를 직접 수행하고 결과를 만든다.
             </div>
           </div>
         </div>
-        <p className="text-sm text-slate-500 mb-3">각 상황이 <strong>인간 보조형</strong>인지 <strong>인간 대체형</strong>인지 골라보세요.</p>
-        <div className="space-y-3">
-          {aiRoleItems.map((item, idx) => {
-            const sel = aiSelections[item.id]
-            const isCorrect = aiSubmitted && sel === item.correct
-            const isWrong = aiSubmitted && sel && sel !== item.correct
-            return (
-              <div
-                key={item.id}
-                className={`rounded-2xl border p-4 transition-all ${
-                  aiSubmitted
-                    ? isCorrect ? 'border-green-300 bg-green-50'
-                    : isWrong ? 'border-red-300 bg-red-50'
-                    : 'border-slate-200 bg-white'
-                    : 'border-slate-200 bg-white'
-                }`}
-              >
-                <p className="text-sm text-slate-700 mb-3 leading-relaxed">
-                  <span className="text-xs font-bold text-slate-400 mr-1">#{idx + 1}</span>
-                  {item.label}
-                </p>
-                <div className="flex gap-2 items-center">
-                  <button
-                    disabled={aiSubmitted}
-                    onClick={() => setAiSelections(prev => ({ ...prev, [item.id]: 'A' }))}
-                    className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
-                      sel === 'A'
-                        ? 'bg-blue-500 text-white border-blue-500'
-                        : 'border-blue-300 text-blue-600 hover:bg-blue-50 disabled:opacity-50'
-                    }`}
-                  >
-                    🤝 인간 보조형
-                  </button>
-                  <button
-                    disabled={aiSubmitted}
-                    onClick={() => setAiSelections(prev => ({ ...prev, [item.id]: 'B' }))}
-                    className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
-                      sel === 'B'
-                        ? 'bg-rose-500 text-white border-rose-500'
-                        : 'border-rose-300 text-rose-600 hover:bg-rose-50 disabled:opacity-50'
-                    }`}
-                  >
-                    🤖 인간 대체형
-                  </button>
-                  {aiSubmitted && (
-                    <span className="text-xl flex-shrink-0 w-7 text-center">
-                      {isCorrect ? '✅' : '❌'}
-                    </span>
-                  )}
-                </div>
-                {aiSubmitted && isWrong && (
-                  <p className="text-xs text-red-600 mt-2 font-medium">
-                    정답: {item.correct === 'A' ? '🤝 인간 보조형' : '🤖 인간 대체형'}
-                  </p>
-                )}
-              </div>
-            )
-          })}
-        </div>
 
-        {!aiSubmitted ? (
-          <button
-            onClick={() => setAiSubmitted(true)}
-            disabled={!allSelected}
-            className={`w-full mt-3 py-3 rounded-2xl font-bold text-sm transition-all ${
-              allSelected
-                ? 'bg-slate-800 text-white hover:bg-slate-700'
-                : 'bg-slate-100 text-slate-400 cursor-not-allowed'
-            }`}
-          >
-            {allSelected ? '정답 확인하기' : `${Object.keys(aiSelections).length} / ${aiRoleItems.length} 선택됨`}
-          </button>
-        ) : (
-          <div className="mt-3 rounded-2xl bg-slate-50 border border-slate-200 p-4 text-center">
-            <p className="font-extrabold text-slate-800 text-xl">{aiScore} / {aiRoleItems.length}</p>
-            <p className="text-sm text-slate-500 mt-1">
-              {aiScore === aiRoleItems.length ? '🎉 모두 맞혔어요!' : aiScore >= 4 ? '👍 잘했어요!' : '📖 다시 한번 확인해볼까요?'}
-            </p>
-            <button
-              onClick={() => { setAiSelections({}); setAiSubmitted(false) }}
-              className="mt-3 px-4 py-1.5 rounded-xl text-xs font-bold border border-slate-300 text-slate-600 hover:bg-slate-100"
-            >
-              다시 풀기
-            </button>
+        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
+          {/* 그룹 레이블 */}
+          <div className="flex gap-3 mb-4">
+            <div className="flex-1 rounded-lg border-2 p-3 text-center text-sm font-bold" style={{ borderColor: '#3b82f6', color: '#3b82f6' }}>
+              A &nbsp; 인간 보조형
+            </div>
+            <div className="flex-1 rounded-lg border-2 p-3 text-center text-sm font-bold" style={{ borderColor: '#f43f5e', color: '#f43f5e' }}>
+              B &nbsp; 인간 대체형
+            </div>
           </div>
-        )}
+
+          {/* 카드 목록 */}
+          <div className="flex flex-col gap-2 mb-4">
+            {aiRoleCards.map((card, idx) => {
+              const ans = aiAnswers[idx]
+              const correct = card.group
+              const isWrong = aiChecked && ans && ans !== correct
+              return (
+                <div key={idx} className="flex items-center gap-2">
+                  <span className={`flex-1 px-3 py-2.5 rounded-lg text-sm border leading-snug ${
+                    aiChecked
+                      ? (ans === correct ? 'border-green-400 bg-green-50' : 'border-red-300 bg-red-50')
+                      : 'border-slate-200 bg-slate-50'
+                  }`}>
+                    {card.label}
+                    {isWrong && (
+                      <span className="text-red-500 ml-2 text-xs">
+                        (→ {correct === 'A' ? '인간 보조형' : '인간 대체형'})
+                      </span>
+                    )}
+                  </span>
+                  <button
+                    onClick={() => selectRole(idx, 'A')}
+                    className={`px-3 py-2 rounded text-xs font-bold transition-colors ${
+                      ans === 'A' ? 'text-white' : 'border border-slate-300 text-slate-500 hover:bg-slate-100'
+                    }`}
+                    style={ans === 'A' ? { backgroundColor: '#3b82f6' } : {}}
+                  >A</button>
+                  <button
+                    onClick={() => selectRole(idx, 'B')}
+                    className={`px-3 py-2 rounded text-xs font-bold transition-colors ${
+                      ans === 'B' ? 'text-white' : 'border border-slate-300 text-slate-500 hover:bg-slate-100'
+                    }`}
+                    style={ans === 'B' ? { backgroundColor: '#f43f5e' } : {}}
+                  >B</button>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* 제출 / 결과 */}
+          {!aiChecked ? (
+            <button
+              onClick={() => setAiChecked(true)}
+              disabled={!allAnswered}
+              className={`px-5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                allAnswered
+                  ? 'bg-slate-700 text-white hover:bg-slate-800'
+                  : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+              }`}
+            >
+              정답 확인
+            </button>
+          ) : (
+            <div className="flex items-center gap-3">
+              <div className="text-sm font-semibold text-green-700 bg-green-50 px-3 py-1.5 rounded-lg">
+                {aiScore} / {aiRoleCards.length} 정답!
+              </div>
+              <button
+                onClick={() => { setAiAnswers({}); setAiChecked(false) }}
+                className="text-xs text-slate-400 underline"
+              >
+                다시 하기
+              </button>
+            </div>
+          )}
+        </div>
 
         <div className="mt-3 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
           💡 어느 쪽이 나쁘다는 게 아닙니다. 중요한 건 사회가 두 방향 모두를 이해하고 준비하는 것입니다.
