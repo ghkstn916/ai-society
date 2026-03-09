@@ -5,13 +5,13 @@ import SortCards from '../../components/interactive/SortCards.jsx'
 
 const phoneItems = [
   { id: 'p1', label: '얼굴 인식 잠금 해제', correct: 'B' },
-  { id: 'p2', label: '계산기 앱', correct: 'A' },
-  { id: 'p3', label: 'AI 카메라 자동 설정', correct: 'B' },
-  { id: 'p4', label: '메모장 앱', correct: 'A' },
-  { id: 'p5', label: '음악 인식 (Shazam)', correct: 'B' },
-  { id: 'p6', label: '알람 앱', correct: 'A' },
-  { id: 'p7', label: '실시간 번역 카메라', correct: 'B' },
-  { id: 'p8', label: '전화 통화 앱', correct: 'A' },
+  { id: 'p2', label: '음악 인식 (Shazam)', correct: 'B' },
+  { id: 'p3', label: '계산기 앱', correct: 'A' },
+  { id: 'p4', label: '실시간 번역 카메라', correct: 'B' },
+  { id: 'p5', label: '알람 앱', correct: 'A' },
+  { id: 'p6', label: '전화 통화 앱', correct: 'A' },
+  { id: 'p7', label: 'AI 카메라 자동 설정', correct: 'B' },
+  { id: 'p8', label: '메모장 앱', correct: 'A' },
 ]
 
 const timeline = [

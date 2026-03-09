@@ -4,12 +4,12 @@ import FlipReveal from '../../components/interactive/FlipReveal.jsx'
 import SortCards from '../../components/interactive/SortCards.jsx'
 
 const aiRoleItems = [
-  { id: 'r1', label: 'AI가 수천 개의 판례를 검색해 변호사에게 제공한다', correct: 'A' },
-  { id: 'r2', label: 'AI가 공장 조립 라인 전체를 완전 자동화한다', correct: 'B' },
-  { id: 'r3', label: 'AI가 의사의 진단을 보조하는 분석 시스템을 운영한다', correct: 'A' },
-  { id: 'r4', label: 'AI가 사람 없이 주식을 자동으로 사고판다', correct: 'B' },
-  { id: 'r5', label: 'AI가 학생별 오답 데이터를 분석해 교사에게 알려준다', correct: 'A' },
-  { id: 'r6', label: 'AI 로봇이 창고에서 상품을 분류·포장·배송한다', correct: 'B' },
+  { id: 'r1', label: 'AI가 X선 사진을 분석해 의심 병변 위치를 의사에게 표시해준다', correct: 'A' },
+  { id: 'r2', label: 'AI 챗봇이 은행 상담원 없이 고객 질문에 24시간 자동 응답한다', correct: 'B' },
+  { id: 'r3', label: 'AI 프로그램이 기자 없이 주식 시황 뉴스를 자동으로 작성·배포한다', correct: 'B' },
+  { id: 'r4', label: 'AI 번역기가 외교 회의에서 통역관 옆에서 실시간 보조 번역을 한다', correct: 'A' },
+  { id: 'r5', label: 'AI 로봇이 물류 창고에서 사람 없이 24시간 상품을 분류·포장한다', correct: 'B' },
+  { id: 'r6', label: 'AI가 수천 건의 판례를 검색해 변호사에게 관련 자료를 제공한다', correct: 'A' },
 ]
 
 const mainSectors = [
@@ -195,13 +195,13 @@ export default function Lesson2_2() {
       <ChoiceQuiz
         question="다음 중 AI가 건설 분야에서 주로 활용되는 방식으로 옳은 것은?"
         options={[
-          '공사 설계 도면을 전부 AI가 혼자 그린다',
-          '드론 촬영 데이터를 AI가 분석해 자율 주행 장비를 24시간 가동한다',
           'AI가 건설 현장의 모든 법적 계약을 처리한다',
           'AI 로봇이 벽돌을 손으로 하나씩 쌓는다',
-          '건설 분야에서는 아직 AI를 활용하지 않는다',
+          '건설 분야에서는 아직 AI를 거의 활용하지 않는다',
+          '드론 촬영 데이터를 AI가 분석해 자율 주행 장비를 24시간 가동한다',
+          '공사 설계 도면을 전부 AI가 혼자 완성한다',
         ]}
-        answer={1}
+        answer={3}
         explanation="드론으로 현장을 촬영하고 AI가 데이터를 분석해 자율 주행 장비를 가동합니다. 이를 통해 건설 시간을 단축하고 안전성을 높입니다."
         storageKey="ai-m2l2-quiz-industry"
       />
@@ -240,16 +240,29 @@ export default function Lesson2_2() {
 
       {/* AI 역할 분류 실습 */}
       <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-2">🧪 활동: AI 보조 vs AI 대체 구분하기</h2>
-        <p className="text-sm text-slate-500 mb-3">다음 AI 활용 사례가 인간을 <strong>보조</strong>하는 경우인지, 인간을 <strong>대체</strong>하는 경우인지 구분해보세요.</p>
+        <h2 className="text-lg font-bold text-slate-800 mb-2">🧪 활동: AI 역할 분류하기</h2>
+        <div className="rounded-2xl bg-amber-50 border border-amber-200 p-4 mb-3 text-sm">
+          <p className="font-bold text-amber-800 mb-1">💡 두 가지 역할의 차이</p>
+          <div className="grid grid-cols-2 gap-3 mt-2">
+            <div className="bg-white border border-amber-200 rounded-xl p-2 text-xs text-slate-700">
+              <p className="font-bold text-blue-700 mb-1">인간 보조형</p>
+              AI가 정보를 제공하거나 분석을 도와주고, 최종 판단은 사람이 내린다.
+            </div>
+            <div className="bg-white border border-amber-200 rounded-xl p-2 text-xs text-slate-700">
+              <p className="font-bold text-red-600 mb-1">인간 대체형</p>
+              AI가 사람 없이 업무 전체를 직접 수행하고 결과물을 만들어낸다.
+            </div>
+          </div>
+        </div>
+        <p className="text-sm text-slate-500 mb-3">다음 상황들이 <strong>인간 보조형</strong>인지 <strong>인간 대체형</strong>인지 분류해보세요.</p>
         <SortCards
           items={aiRoleItems}
-          groupA="인간 보조 (AI가 사람을 도움)"
-          groupB="인간 대체 (AI가 사람 대신 처리)"
+          groupA="인간 보조형"
+          groupB="인간 대체형"
           storageKey="ai-m2l2-sort-role"
         />
         <div className="mt-3 text-xs text-slate-500 bg-slate-50 rounded-xl p-3">
-          💡 두 경우 모두 사회를 변화시키지만, 방식이 다릅니다. AI가 사람을 보조할 때 인간은 더 창의적인 업무에 집중할 수 있습니다.
+          💡 어느 쪽이 나쁘다는 게 아닙니다. 중요한 건 사회가 두 방향 모두를 이해하고 준비하는 것입니다.
         </div>
       </section>
 
