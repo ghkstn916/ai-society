@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
 import SortCards from '../../components/interactive/SortCards.jsx'
@@ -40,7 +41,65 @@ const aiExperts = [
   },
 ]
 
+const jobs = [
+  {
+    id: 'ai-engineer',
+    icon: '🤖',
+    title: '인공지능 엔지니어',
+    summary: 'AI 솔루션 설계 및 개발 담당',
+    detail: 'AI 시스템의 전반을 설계하고 개발하는 핵심 직업입니다. 머신러닝 모델을 학습시키고, AI 알고리즘을 실제 제품에 적용하며, 시스템 성능을 최적화합니다. Python, TensorFlow, PyTorch 등의 도구를 사용하며, 컴퓨터공학·수학 지식이 기반이 됩니다.',
+    skills: '프로그래밍, 수학/통계, 딥러닝 프레임워크',
+    color: 'blue',
+  },
+  {
+    id: 'data-scientist',
+    icon: '📊',
+    title: '데이터 사이언티스트',
+    summary: '대규모 데이터 분석으로 의사결정 지원',
+    detail: '방대한 양의 데이터에서 의미 있는 패턴과 인사이트를 찾아내는 전문가입니다. 기업이 AI를 도입하거나 데이터 기반으로 의사결정을 내릴 수 있도록 지원합니다. 데이터 수집·정제·분석·시각화 전 과정을 담당하며, 통계학·프로그래밍 능력이 필요합니다.',
+    skills: '통계학, 데이터 시각화, SQL, Python',
+    color: 'green',
+  },
+  {
+    id: 'ml-expert',
+    icon: '🧠',
+    title: '기계학습 전문가',
+    summary: 'AI가 데이터를 학습해 정확한 예측을 하도록 모델 설계',
+    detail: '기계학습 알고리즘을 연구하고 최적화하는 전문가입니다. AI가 스스로 패턴을 학습할 수 있는 모델을 설계하며, 의료 진단·자율주행·언어 처리 등 다양한 분야의 학습 모델을 개발합니다. 최신 AI 연구 논문을 이해하고 실제 시스템에 적용하는 능력이 요구됩니다.',
+    skills: '딥러닝, 알고리즘 최적화, 수학적 모델링',
+    color: 'purple',
+  },
+  {
+    id: 'ai-ethics',
+    icon: '⚖️',
+    title: 'AI 윤리 전문가',
+    summary: 'AI 시스템의 공정성·투명성·안전성 검토',
+    detail: 'AI가 인종·성별·나이에 따라 차별적인 결정을 내리지 않도록 시스템을 감시하고 개선하는 전문가입니다. AI 정책 수립, 법·제도 연구, 기업 AI 윤리 가이드라인 작성 등의 업무를 합니다. 기술과 인문·법학·철학 지식을 모두 갖춘 융합형 직업입니다.',
+    skills: 'AI 기술 이해, 법학/철학, 정책 분석',
+    color: 'amber',
+  },
+  {
+    id: 'robot-emotion',
+    icon: '🦾',
+    title: '로봇 감성 인지 연구원',
+    summary: '로봇이 인간의 의도와 감정에 따라 효율적으로 작동하도록 연구',
+    detail: '로봇이 인간의 표정, 목소리 톤, 몸짓 언어를 인식하고 적절하게 반응하도록 연구하는 전문가입니다. 고령자 돌봄 로봇, 의료 보조 로봇, 교육 로봇 등 인간과 밀접하게 상호작용하는 로봇 개발에 필수적입니다. 인지과학·심리학·로봇공학이 결합된 최첨단 분야입니다.',
+    skills: '로봇공학, 인지과학, 감성 컴퓨팅',
+    color: 'teal',
+  },
+]
+
+const jobColorMap = {
+  blue:   { border: 'border-blue-200',   bg: 'bg-blue-50',   icon: 'bg-blue-100 text-blue-700',   title: 'text-blue-800',   tag: 'bg-blue-100 text-blue-600'   },
+  green:  { border: 'border-green-200',  bg: 'bg-green-50',  icon: 'bg-green-100 text-green-700',  title: 'text-green-800',  tag: 'bg-green-100 text-green-600'  },
+  purple: { border: 'border-purple-200', bg: 'bg-purple-50', icon: 'bg-purple-100 text-purple-700', title: 'text-purple-800', tag: 'bg-purple-100 text-purple-600' },
+  amber:  { border: 'border-amber-200',  bg: 'bg-amber-50',  icon: 'bg-amber-100 text-amber-700',  title: 'text-amber-800',  tag: 'bg-amber-100 text-amber-600'  },
+  teal:   { border: 'border-teal-200',   bg: 'bg-teal-50',   icon: 'bg-teal-100 text-teal-700',   title: 'text-teal-800',   tag: 'bg-teal-100 text-teal-600'   },
+}
+
 export default function Lesson2_3() {
+  const [openJob, setOpenJob] = useState(null)
+
   return (
     <article className="space-y-8">
       <header>
@@ -170,10 +229,10 @@ export default function Lesson2_3() {
           alt="미래 직업 준비"
           className="w-full rounded-2xl object-cover mb-4 shadow"
         />
-        <div className="rounded-2xl bg-gradient-to-br from-green-600 to-teal-600 text-white p-5 mb-4">
-          <p className="text-xs font-semibold text-green-100 mb-1">핵심 개념</p>
-          <p className="font-bold">인공지능 유창성 (AI Fluency)</p>
-          <p className="text-sm text-green-100 mt-1">인간과 AI의 능력을 파악하고, 적절한 업무에 AI를 활용할 수 있는 미래 인재의 필수 능력</p>
+        <div className="rounded-2xl bg-teal-50 border border-teal-200 p-5 mb-4">
+          <p className="text-xs font-semibold text-teal-500 mb-1">핵심 개념</p>
+          <p className="font-bold text-slate-800">인공지능 유창성 (AI Fluency)</p>
+          <p className="text-sm text-slate-600 mt-1">인간과 AI의 능력을 파악하고, 적절한 업무에 AI를 활용할 수 있는 미래 인재의 필수 능력</p>
         </div>
         <p className="text-sm text-slate-600 leading-relaxed">
           AI가 반복 작업을 처리하고, 인간은 <strong>창의적이고 감성적인 업무</strong>에 집중하는 시대가 오고 있습니다. AI와 경쟁하는 것이 아니라, <strong>AI와 협업</strong>할 수 있는 인재가 필요합니다.
@@ -205,23 +264,41 @@ export default function Lesson2_3() {
 
       {/* 인공지능 관련 유망 직업 */}
       <section>
-        <h2 className="text-lg font-bold text-slate-800 mb-3">7. AI 관련 유망 직업</h2>
-        <div className="grid grid-cols-1 gap-3">
-          {[
-            { title: '인공지능 엔지니어', desc: 'AI 솔루션 설계 및 개발 담당' },
-            { title: '데이터 사이언티스트', desc: '대규모 데이터 분석으로 의사결정 지원' },
-            { title: '기계학습 전문가', desc: 'AI가 데이터를 학습해 정확한 예측을 하도록 모델 설계' },
-            { title: 'AI 윤리 전문가', desc: 'AI 시스템의 공정성·투명성·안전성 검토' },
-            { title: '로봇 감성 인지 연구원', desc: '로봇이 인간의 의도에 따라 효율적으로 작동하도록 연구' },
-          ].map(job => (
-            <div key={job.title} className="flex gap-3 bg-white border border-slate-200 rounded-xl p-3 shadow-sm">
-              <span className="text-lg mt-0.5">💼</span>
-              <div>
-                <p className="text-sm font-bold text-slate-800">{job.title}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{job.desc}</p>
+        <h2 className="text-lg font-bold text-slate-800 mb-2">7. AI 관련 유망 직업</h2>
+        <p className="text-sm text-slate-500 mb-3">카드를 클릭하면 직업 설명과 필요 역량을 확인할 수 있습니다.</p>
+        <div className="space-y-2">
+          {jobs.map(job => {
+            const isOpen = openJob === job.id
+            const c = jobColorMap[job.color]
+            return (
+              <div
+                key={job.id}
+                onClick={() => setOpenJob(isOpen ? null : job.id)}
+                className={`rounded-2xl border cursor-pointer transition-all overflow-hidden ${isOpen ? `${c.border} ${c.bg}` : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'}`}
+              >
+                <div className="p-4">
+                  <div className="flex items-center gap-3">
+                    <span className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0 ${isOpen ? c.icon : 'bg-slate-100'}`}>
+                      {job.icon}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-bold ${isOpen ? c.title : 'text-slate-800'}`}>{job.title}</p>
+                      <p className="text-xs text-slate-500 truncate">{job.summary}</p>
+                    </div>
+                    <span className={`text-slate-400 text-xs transition-transform duration-200 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}>▾</span>
+                  </div>
+                  {isOpen && (
+                    <div className={`mt-3 pt-3 border-t ${c.border}`}>
+                      <p className="text-sm text-slate-700 leading-relaxed mb-3">{job.detail}</p>
+                      <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium ${c.tag}`}>
+                        <span>🎯</span> 필요 역량: {job.skills}
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </section>
 

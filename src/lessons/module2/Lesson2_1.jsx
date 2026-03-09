@@ -12,8 +12,107 @@ const timeline = [
   { year: '2016', title: '알파고', desc: 'AI 바둑 프로그램 알파고가 세계 최고 수준의 바둑 기사 이세돌을 이겼다. AI가 인류 난제 해결에도 기여할 수 있다는 기대를 높였다.' },
 ]
 
+const smartphoneFeatures = [
+  {
+    id: 'face',
+    icon: '👤',
+    label: '얼굴 인식 잠금',
+    summary: '내 얼굴을 학습해 잠금 해제·결제',
+    detail: '얼굴의 수천 개 특징점을 딥러닝으로 학습해 정확하게 나를 인식합니다. 단순한 비밀번호와 달리 AI가 스스로 학습해 인식 정확도를 높이며, 조명 변화나 안경 착용 여부도 자동으로 보완합니다. 결제·앱 잠금 해제에도 활용됩니다.',
+    color: 'blue',
+  },
+  {
+    id: 'camera',
+    icon: '📷',
+    label: 'AI 카메라',
+    summary: '인물·풍경 자동 인식, 촬영 설정 최적화',
+    detail: '수백만 장의 사진 데이터를 학습해 피사체가 인물인지, 풍경인지, 음식인지 자동으로 판단하고 최적의 셔터 속도·밝기·색감을 설정합니다. 야간 모드나 인물 배경 흐리기(보케)도 AI가 실시간으로 처리합니다.',
+    color: 'purple',
+  },
+  {
+    id: 'translate',
+    icon: '🌐',
+    label: '실시간 번역',
+    summary: '외국어를 카메라로 비추면 즉시 번역',
+    detail: '카메라로 외국어 간판이나 메뉴판을 비추면 이미지 속 문자를 인식하고 자연스러운 한국어로 번역해 화면에 덮어씌웁니다. 단어 단위가 아닌 문맥 전체를 분석해 자연스럽게 번역하며, 음성 실시간 통역도 가능합니다.',
+    color: 'teal',
+  },
+  {
+    id: 'music',
+    icon: '🎵',
+    label: '음악 인식',
+    summary: '흘러나오는 노래를 들으면 곡명 알림',
+    detail: '주변 소리에서 멜로디 특징(핑거프린트)을 추출해 수억 곡 데이터베이스와 비교합니다. 단 5초 만에 노래를 찾아내며, 소음이 많은 환경에서도 높은 인식률을 보입니다. AI가 음성 패턴을 지속적으로 학습해 인식 범위를 넓혀가고 있습니다.',
+    color: 'pink',
+  },
+  {
+    id: 'health',
+    icon: '❤️',
+    label: '건강 관리',
+    summary: '웨어러블 데이터로 맥박·수면 분석',
+    detail: '스마트워치와 연동해 맥박, 혈중 산소, 수면 단계, 걸음 수 등의 데이터를 AI가 분석합니다. 평소 패턴과 다른 이상 징후가 감지되면 즉시 알림을 보내고, 장기적인 건강 트렌드를 분석해 운동 목표와 수면 개선 조언을 제공합니다.',
+    color: 'red',
+  },
+  {
+    id: 'iot',
+    icon: '🏠',
+    label: 'IoT 제어',
+    summary: '집 안 기기를 음성으로 원격 제어',
+    detail: 'AI 음성 인식으로 조명, 에어컨, TV, 잠금장치를 말 한마디로 제어합니다. 생활 패턴을 학습해 귀가 시간에 맞춰 자동으로 조명을 켜거나 온도를 조절하기도 합니다. 스마트홈 기기들이 서로 연결돼 생활 편의를 높입니다.',
+    color: 'green',
+  },
+]
+
+const phoneColorMap = {
+  blue:   { border: 'border-blue-200',   bg: 'bg-blue-50',   icon: 'bg-blue-100 text-blue-700',   title: 'text-blue-800'   },
+  purple: { border: 'border-purple-200', bg: 'bg-purple-50', icon: 'bg-purple-100 text-purple-700', title: 'text-purple-800' },
+  teal:   { border: 'border-teal-200',   bg: 'bg-teal-50',   icon: 'bg-teal-100 text-teal-700',   title: 'text-teal-800'   },
+  pink:   { border: 'border-pink-200',   bg: 'bg-pink-50',   icon: 'bg-pink-100 text-pink-700',   title: 'text-pink-800'   },
+  red:    { border: 'border-red-200',    bg: 'bg-red-50',    icon: 'bg-red-100 text-red-700',    title: 'text-red-800'    },
+  green:  { border: 'border-green-200',  bg: 'bg-green-50',  icon: 'bg-green-100 text-green-700',  title: 'text-green-800'  },
+}
+
+const personalServices = [
+  {
+    platform: '유튜브',
+    icon: '▶️',
+    color: 'red',
+    tag: '영상 추천',
+    desc: '시청 기록, 검색어, 좋아요 데이터를 분석해 내가 관심 가질 만한 영상을 자동으로 추천합니다.',
+  },
+  {
+    platform: '넷플릭스',
+    icon: '🎬',
+    color: 'rose',
+    tag: '콘텐츠 추천',
+    desc: '시청 패턴, 장르, 평점을 분석해 다음에 볼 만한 드라마와 영화를 맞춤 추천합니다.',
+  },
+  {
+    platform: '쇼핑몰',
+    icon: '🛒',
+    color: 'amber',
+    tag: '상품 추천',
+    desc: '조회한 상품과 구매 이력을 분석해 비슷하거나 함께 사면 좋은 상품을 자동으로 보여줍니다.',
+  },
+  {
+    platform: '뉴스 앱',
+    icon: '📰',
+    color: 'sky',
+    tag: '뉴스 큐레이션',
+    desc: '클릭 패턴을 분석해 관심 분야의 기사를 우선 노출하고 개인화된 뉴스피드를 제공합니다.',
+  },
+]
+
+const serviceColorMap = {
+  red:   { border: 'border-red-200',   bg: 'bg-red-50',   tag: 'bg-red-100 text-red-700',   title: 'text-red-800'   },
+  rose:  { border: 'border-rose-200',  bg: 'bg-rose-50',  tag: 'bg-rose-100 text-rose-700',  title: 'text-rose-800'  },
+  amber: { border: 'border-amber-200', bg: 'bg-amber-50', tag: 'bg-amber-100 text-amber-700', title: 'text-amber-800' },
+  sky:   { border: 'border-sky-200',   bg: 'bg-sky-50',   tag: 'bg-sky-100 text-sky-700',   title: 'text-sky-800'   },
+}
+
 export default function Lesson2_1() {
   const [openYear, setOpenYear] = useState(null)
+  const [openPhone, setOpenPhone] = useState(null)
 
   return (
     <article className="space-y-8">
@@ -38,7 +137,6 @@ export default function Lesson2_1() {
         <h2 className="text-lg font-bold text-slate-800 mb-1">1. 인공지능 기술은 어떻게 발전했을까?</h2>
         <p className="text-sm text-slate-500 mb-4">연도를 클릭하면 해당 시기의 핵심 사건을 확인할 수 있습니다.</p>
         <div className="relative">
-          {/* 타임라인 세로선 */}
           <div className="absolute left-[52px] top-0 bottom-0 w-0.5 bg-green-200" />
           <div className="space-y-3">
             {timeline.map(item => {
@@ -76,7 +174,7 @@ export default function Lesson2_1() {
         </div>
       </section>
 
-      {/* 스마트폰 */}
+      {/* 스마트폰 — 키카드 아코디언 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">2. AI가 들어온 스마트폰</h2>
         <img
@@ -85,23 +183,38 @@ export default function Lesson2_1() {
           className="w-full rounded-2xl object-cover mb-4 shadow"
         />
         <p className="text-sm text-slate-600 leading-relaxed mb-4">
-          우리가 매일 쓰는 스마트폰에는 수십 가지 AI 기능이 들어 있습니다.
+          우리가 매일 쓰는 스마트폰에는 수십 가지 AI 기능이 들어 있습니다. 카드를 클릭해 각 기능이 어떻게 AI인지 확인해보세요.
         </p>
         <div className="grid grid-cols-2 gap-3">
-          {[
-            { icon: '👤', label: '얼굴 인식 잠금', desc: '내 얼굴을 학습해 잠금 해제·결제' },
-            { icon: '📷', label: 'AI 카메라', desc: '인물·풍경 인식, 자동 설정 최적화' },
-            { icon: '🌐', label: '실시간 번역', desc: '외국어 메뉴를 카메라로 비추면 번역' },
-            { icon: '🎵', label: '음악 인식', desc: '흘러나오는 노래를 들으면 곡명 알림' },
-            { icon: '❤️', label: '건강 관리', desc: '웨어러블 데이터로 맥박·수면 분석' },
-            { icon: '🏠', label: 'IoT 제어', desc: '집 안 기기를 음성으로 원격 제어' },
-          ].map(item => (
-            <div key={item.label} className="bg-white border border-slate-200 rounded-xl p-3 shadow-sm">
-              <span className="text-xl">{item.icon}</span>
-              <p className="text-sm font-semibold text-slate-800 mt-1">{item.label}</p>
-              <p className="text-xs text-slate-500">{item.desc}</p>
-            </div>
-          ))}
+          {smartphoneFeatures.map(feat => {
+            const isOpen = openPhone === feat.id
+            const c = phoneColorMap[feat.color]
+            return (
+              <div
+                key={feat.id}
+                onClick={() => setOpenPhone(isOpen ? null : feat.id)}
+                className={`rounded-2xl border cursor-pointer transition-all overflow-hidden ${isOpen ? `${c.border} ${c.bg} col-span-2` : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'}`}
+              >
+                <div className="p-4">
+                  <div className="flex items-center gap-3 mb-1">
+                    <span className={`w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0 ${isOpen ? c.icon : 'bg-slate-100'}`}>
+                      {feat.icon}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm font-bold ${isOpen ? c.title : 'text-slate-800'}`}>{feat.label}</p>
+                      <p className="text-xs text-slate-500 truncate">{feat.summary}</p>
+                    </div>
+                    <span className={`text-slate-400 text-xs transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>▾</span>
+                  </div>
+                  {isOpen && (
+                    <p className={`text-sm leading-relaxed mt-3 pt-3 border-t ${c.border} text-slate-700`}>
+                      {feat.detail}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )
+          })}
         </div>
       </section>
 
@@ -113,25 +226,24 @@ export default function Lesson2_1() {
           alt="개인 맞춤 추천"
           className="w-full rounded-2xl object-cover mb-4 shadow"
         />
-        <div className="rounded-2xl bg-gradient-to-br from-green-600 to-teal-600 text-white p-5 mb-4">
-          <p className="text-xs font-semibold text-green-100 mb-1">핵심 원리</p>
-          <p className="font-bold text-sm leading-relaxed">AI는 내가 자주 검색한 단어, 시청한 영상, 구매 내역을 분석해 내가 좋아할 만한 것을 예측합니다.</p>
+        <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 mb-4">
+          <p className="text-xs font-semibold text-slate-500 mb-1">핵심 원리</p>
+          <p className="font-bold text-sm text-slate-800 leading-relaxed">AI는 내가 자주 검색한 단어, 시청한 영상, 구매 내역을 분석해 내가 좋아할 만한 것을 예측합니다.</p>
         </div>
-        <div className="space-y-3">
-          {[
-            { platform: '유튜브', desc: '시청 기록과 좋아요 데이터를 분석해 관심 있을 영상 추천' },
-            { platform: '넷플릭스', desc: '시청 패턴·장르·평점을 분석해 다음 볼 작품 추천' },
-            { platform: '쇼핑몰', desc: '조회한 상품·구매 이력으로 비슷한 상품 자동 매칭' },
-            { platform: '뉴스 앱', desc: '클릭 패턴으로 관심 분야 기사를 우선 노출' },
-          ].map(item => (
-            <div key={item.platform} className="flex gap-3 bg-white border border-slate-200 rounded-xl p-3 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0 mt-1.5" />
-              <div>
-                <span className="text-sm font-bold text-slate-800">{item.platform}</span>
-                <p className="text-xs text-slate-500 mt-0.5">{item.desc}</p>
+        <div className="grid grid-cols-2 gap-3">
+          {personalServices.map(item => {
+            const c = serviceColorMap[item.color]
+            return (
+              <div key={item.platform} className={`rounded-2xl border p-4 ${c.border} ${c.bg}`}>
+                <div className="flex items-start justify-between mb-2">
+                  <span className="text-2xl">{item.icon}</span>
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${c.tag}`}>{item.tag}</span>
+                </div>
+                <p className={`text-sm font-bold mb-1.5 ${c.title}`}>{item.platform}</p>
+                <p className="text-xs text-slate-600 leading-relaxed">{item.desc}</p>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
         <FlipReveal
           question="맞춤형 추천 서비스가 항상 좋은 것만은 아닐 수도 있습니다. 어떤 문제가 생길까요?"
@@ -144,8 +256,8 @@ export default function Lesson2_1() {
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">4. AI가 바꾸는 교육</h2>
         <img
-          src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=700&h=240&fit=crop"
-          alt="학생 학습"
+          src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=700&h=240&fit=crop"
+          alt="책과 학습"
           className="w-full rounded-2xl object-cover mb-4 shadow"
         />
         <div className="space-y-3 text-sm text-slate-700">
@@ -167,9 +279,9 @@ export default function Lesson2_1() {
       {/* AI의 역할 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">5. AI의 역할: 인간과 함께 문제를 해결하다</h2>
-        <div className="rounded-2xl bg-gradient-to-br from-teal-600 to-green-700 text-white p-5 mb-4">
-          <p className="text-xs font-semibold text-teal-100 mb-2">핵심 관점</p>
-          <p className="font-bold text-sm leading-relaxed">인공지능은 사람을 도와 사회의 다양한 문제 해결을 위해 활용될 뿐만 아니라, 더 가치 있고 창의적인 새로운 일을 할 수 있게 도움을 줄 수 있다.</p>
+        <div className="rounded-2xl bg-teal-50 border border-teal-200 p-5 mb-4">
+          <p className="text-xs font-semibold text-teal-600 mb-2">핵심 관점</p>
+          <p className="font-bold text-sm text-slate-800 leading-relaxed">인공지능은 사람을 도와 사회의 다양한 문제 해결을 위해 활용될 뿐만 아니라, 더 가치 있고 창의적인 새로운 일을 할 수 있게 도움을 줄 수 있다.</p>
         </div>
         <div className="space-y-3">
           {[

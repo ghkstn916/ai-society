@@ -225,12 +225,19 @@ export default function Lesson2_2() {
       {/* 인공지능 국가전략 */}
       <section>
         <h2 className="text-lg font-bold text-slate-800 mb-3">4. 우리나라의 인공지능 국가전략</h2>
-        <div className="rounded-2xl bg-gradient-to-br from-blue-700 to-indigo-700 text-white p-5">
-          <p className="text-xs font-semibold text-blue-200 mb-2">2019년 제53회 국무회의 발표</p>
-          <p className="font-bold mb-3">2030년까지 최대 455조 원의 경제 효과 창출 목표</p>
-          <div className="grid grid-cols-3 gap-2 text-xs text-blue-100">
-            {['세계를 선도하는 AI 생태계 구축', '인공지능을 가장 잘 활용하는 나라', '사람 중심의 AI 구현'].map(goal => (
-              <div key={goal} className="bg-white bg-opacity-10 rounded-xl p-2 text-center">{goal}</div>
+        <div className="rounded-2xl bg-blue-50 border border-blue-200 p-5">
+          <p className="text-xs font-semibold text-blue-500 mb-1">2019년 제53회 국무회의 발표</p>
+          <p className="font-bold text-slate-800 mb-4">2030년까지 최대 455조 원의 경제 효과 창출 목표</p>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { goal: '세계를 선도하는 AI 생태계 구축', icon: '🌐' },
+              { goal: '인공지능을 가장 잘 활용하는 나라', icon: '🏆' },
+              { goal: '사람 중심의 AI 구현', icon: '🤝' },
+            ].map(item => (
+              <div key={item.goal} className="bg-white border border-blue-200 rounded-xl p-3 text-center shadow-sm">
+                <span className="text-xl block mb-1">{item.icon}</span>
+                <p className="text-xs text-slate-700 font-medium leading-snug">{item.goal}</p>
+              </div>
             ))}
           </div>
         </div>
