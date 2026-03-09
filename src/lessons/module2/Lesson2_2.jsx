@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import ChoiceQuiz from '../../components/interactive/ChoiceQuiz.jsx'
 import FlipReveal from '../../components/interactive/FlipReveal.jsx'
-import usePersistentState from '../../hooks/usePersistentState.js'
 
 const aiRoleCards = [
   { label: 'AI가 X선 사진을 분석해 의심 병변 위치를 의사에게 표시해준다', group: 'A' },
@@ -121,10 +120,10 @@ const colorMap = {
 
 export default function Lesson2_2() {
   const [openSector, setOpenSector] = useState(null)
-  const [aiAnswers, setAiAnswers] = usePersistentState('ai-m2l2-sort-role', {})
-  const [aiChecked, setAiChecked] = usePersistentState('ai-m2l2-sort-role-c', false)
+  const [aiAnswers, setAiAnswers] = useState({})
+  const [aiChecked, setAiChecked] = useState(false)
 
-  const allAnswered = Object.keys(aiAnswers).length === aiRoleCards.length
+  const allAnswered = aiRoleCards.every((_, i) => aiAnswers[i])
   const aiScore = aiRoleCards.filter((c, i) => aiAnswers[i] === c.group).length
 
   const selectRole = (idx, group) => {
